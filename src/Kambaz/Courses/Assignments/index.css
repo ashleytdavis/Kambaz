@@ -1,0 +1,11 @@
+.wd-border-thin {
+    border-width: 4px;
+}
+
+.wd-rounded-corners-all-around {
+    border-radius: 50px;
+}
+
+.wd-border-gray {
+    border-color: gray;
+}

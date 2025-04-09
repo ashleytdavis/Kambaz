@@ -1,0 +1,754 @@
+[
+    {
+        "_id": "M101",
+        "name": "Web Development Basics",
+        "description": "Introduction to the core principles of web development, focusing on client-side and server-side programming.",
+        "course": "CS101",
+        "lessons": [
+          {
+            "_id": "L101",
+            "name": "Introduction to Web Development",
+            "description": "Overview of web development technologies and the process of building web applications.",
+            "module": "M101"
+          },
+          {
+            "_id": "L102",
+            "name": "Client-Side Programming",
+            "description": "Introduction to HTML, CSS, and JavaScript for building interactive web pages.",
+            "module": "M101"
+          },
+          {
+            "_id": "L103",
+            "name": "Server-Side Programming",
+            "description": "Introduction to backend programming using popular web frameworks like Node.js and Express.",
+            "module": "M101"
+          },
+          {
+            "_id": "L104",
+            "name": "Databases in Web Development",
+            "description": "Overview of database systems, including SQL and NoSQL, for storing and retrieving data in web applications.",
+            "module": "M101"
+          },
+          {
+            "_id": "L105",
+            "name": "Web Security",
+            "description": "Fundamentals of web application security, including common vulnerabilities and best practices for securing applications.",
+            "module": "M101"
+          }
+        ]
+      },
+      {
+        "_id": "M102",
+        "name": "Advanced Web Development",
+        "description": "A deeper dive into advanced web development techniques, including responsive design, web frameworks, and advanced security practices.",
+        "course": "CS101",
+        "lessons": [
+          {
+            "_id": "L106",
+            "name": "Responsive Web Design",
+            "description": "Techniques for building websites that work well on both desktop and mobile devices.",
+            "module": "M102"
+          },
+          {
+            "_id": "L107",
+            "name": "Frontend Frameworks",
+            "description": "Introduction to modern frontend frameworks like React and Vue.js for building dynamic user interfaces.",
+            "module": "M102"
+          },
+          {
+            "_id": "L108",
+            "name": "Backend Frameworks",
+            "description": "In-depth exploration of backend frameworks like Django and Ruby on Rails for building robust web applications.",
+            "module": "M102"
+          },
+          {
+            "_id": "L109",
+            "name": "APIs and Web Services",
+            "description": "How to create and consume APIs using REST and GraphQL to enable communication between different parts of a web application.",
+            "module": "M102"
+          },
+          {
+            "_id": "L110",
+            "name": "Advanced Web Security",
+            "description": "Advanced topics in web security, including OAuth, JWT, and securing APIs.",
+            "module": "M102"
+          }
+        ]
+      },  
+      {
+        "_id": "M201",
+        "name": "Introduction to Data Storage Systems",
+        "description": "An introduction to large-scale data storage systems, including relational and non-relational databases.",
+        "course": "CS102",
+        "lessons": [
+          {
+            "_id": "L201",
+            "name": "Overview of Data Storage Systems",
+            "description": "Introduction to different types of data storage systems and their use cases.",
+            "module": "M201"
+          },
+          {
+            "_id": "L202",
+            "name": "Relational Databases",
+            "description": "Fundamentals of relational databases, including schema design, normalization, and SQL.",
+            "module": "M201"
+          },
+          {
+            "_id": "L203",
+            "name": "Non-Relational Databases",
+            "description": "Introduction to NoSQL databases like MongoDB, Cassandra, and Redis, and their advantages over relational systems.",
+            "module": "M201"
+          }
+        ]
+      },
+      {
+        "_id": "M202",
+        "name": "Distributed Storage Systems",
+        "description": "Exploration of distributed storage systems and their application in handling large-scale data.",
+        "course": "CS102",
+        "lessons": [
+          {
+            "_id": "L204",
+            "name": "Introduction to Distributed Systems",
+            "description": "Concepts and architectures of distributed storage systems.",
+            "module": "M202"
+          },
+          {
+            "_id": "L205",
+            "name": "Data Replication and Consistency",
+            "description": "Techniques for ensuring data reliability and consistency in distributed systems.",
+            "module": "M202"
+          },
+          {
+            "_id": "L206",
+            "name": "Distributed File Systems",
+            "description": "In-depth look at distributed file systems like HDFS and their application in data storage.",
+            "module": "M202"
+          }
+        ]
+      },
+      {
+        "_id": "M203",
+        "name": "Query Optimization and Indexing",
+        "description": "Techniques for optimizing database queries and indexing for efficient data retrieval.",
+        "course": "CS102",
+        "lessons": [
+          {
+            "_id": "L207",
+            "name": "Query Optimization Basics",
+            "description": "Techniques and algorithms for optimizing SQL queries to improve performance.",
+            "module": "M203"
+          },
+          {
+            "_id": "L208",
+            "name": "Indexing Strategies",
+            "description": "Different indexing methods and their application in improving database query speed.",
+            "module": "M203"
+          },
+          {
+            "_id": "L209",
+            "name": "Advanced Query Optimization",
+            "description": "Advanced techniques in query optimization, including cost-based optimization and execution plans.",
+            "module": "M203"
+          }
+        ]
+      },
+      {
+        "_id": "M204",
+        "name": "Data Warehousing and ETL Processes",
+        "description": "An overview of data warehousing concepts and the Extract, Transform, Load (ETL) processes.",
+        "course": "CS102",
+        "lessons": [
+          {
+            "_id": "L210",
+            "name": "Introduction to Data Warehousing",
+            "description": "Basics of data warehousing and its importance in large-scale data storage and retrieval.",
+            "module": "M204"
+          },
+          {
+            "_id": "L211",
+            "name": "ETL Process Overview",
+            "description": "Detailed exploration of the ETL process and its role in integrating data from multiple sources into a data warehouse.",
+            "module": "M204"
+          },
+          {
+            "_id": "L212",
+            "name": "Data Modeling for Data Warehouses",
+            "description": "Techniques for designing efficient data models in data warehouses, including star and snowflake schemas.",
+            "module": "M204"
+          }
+        ]
+      },    
+      {
+        "_id": "M301",
+        "name": "Introduction to Programming Languages",
+        "description": "Overview of programming languages, their principles, and the basic concepts that guide their design and implementation.",
+        "course": "CS103",
+        "lessons": [
+          {
+            "_id": "L301",
+            "name": "History of Programming Languages",
+            "description": "A brief history of programming languages and how they've evolved over time.",
+            "module": "M301"
+          },
+          {
+            "_id": "L302",
+            "name": "Syntax and Semantics",
+            "description": "Understanding the structure (syntax) and meaning (semantics) behind programming languages.",
+            "module": "M301"
+          },
+          {
+            "_id": "L303",
+            "name": "Types and Data Structures",
+            "description": "Exploration of data types, type systems, and common data structures used in programming languages.",
+            "module": "M301"
+          }
+        ]
+      },
+      {
+        "_id": "M302",
+        "name": "Control Structures and Functions",
+        "description": "A deep dive into the control structures and functions that define the flow of a program and how they are implemented in different languages.",
+        "course": "CS103",
+        "lessons": [
+          {
+            "_id": "L304",
+            "name": "Control Flow Constructs",
+            "description": "Introduction to conditionals, loops, and branching statements in various languages.",
+            "module": "M302"
+          },
+          {
+            "_id": "L305",
+            "name": "Functions and Recursion",
+            "description": "Understanding functions, function calls, and recursion as a foundational concept in programming languages.",
+            "module": "M302"
+          },
+          {
+            "_id": "L306",
+            "name": "First-Class Functions",
+            "description": "Exploration of languages with first-class functions and higher-order functions.",
+            "module": "M302"
+          }
+        ]
+      },
+      {
+        "_id": "M303",
+        "name": "Object-Oriented Programming",
+        "description": "In-depth exploration of object-oriented programming concepts, including classes, objects, inheritance, and polymorphism.",
+        "course": "CS103",
+        "lessons": [
+          {
+            "_id": "L307",
+            "name": "Classes and Objects",
+            "description": "Understanding the fundamentals of classes, objects, and their relationship in object-oriented languages.",
+            "module": "M303"
+          },
+          {
+            "_id": "L308",
+            "name": "Inheritance and Polymorphism",
+            "description": "Concepts of inheritance, subclassing, and polymorphism in object-oriented programming.",
+            "module": "M303"
+          },
+          {
+            "_id": "L309",
+            "name": "Encapsulation and Abstraction",
+            "description": "How encapsulation and abstraction are used in OOP to improve code structure and flexibility.",
+            "module": "M303"
+          }
+        ]
+      },
+      {
+        "_id": "M304",
+        "name": "Design and Implementation of Programming Languages",
+        "description": "Techniques for designing and implementing new programming languages, with a focus on syntax, semantics, and the interpreter/compiler process.",
+        "course": "CS103",
+        "lessons": [
+          {
+            "_id": "L310",
+            "name": "Language Design Principles",
+            "description": "Principles and best practices for designing a new programming language.",
+            "module": "M304"
+          },
+          {
+            "_id": "L311",
+            "name": "Compilers and Interpreters",
+            "description": "Introduction to the implementation of compilers and interpreters for programming languages.",
+            "module": "M304"
+          },
+          {
+            "_id": "L312",
+            "name": "Practical Language Design",
+            "description": "Hands-on experience in designing a simple programming language and its interpreter.",
+            "module": "M304"
+          }
+        ]
+      },            
+      {
+        "_id": "M401",
+        "name": "Introduction to Networking",
+        "description": "Overview of networking fundamentals, including key concepts and network types.",
+        "course": "CS104",
+        "lessons": [
+          {
+            "_id": "L401",
+            "name": "Networking Basics",
+            "description": "Introduction to computer networks, types of networks (LAN, WAN, etc.), and their uses.",
+            "module": "M401"
+          },
+          {
+            "_id": "L402",
+            "name": "Network Models",
+            "description": "Overview of the OSI and TCP/IP models, their layers, and their role in network communication.",
+            "module": "M401"
+          },
+          {
+            "_id": "L403",
+            "name": "Transmission Media",
+            "description": "Types of transmission media used in networks, including copper, fiber optics, and wireless.",
+            "module": "M401"
+          }
+        ]
+      },
+      {
+        "_id": "M402",
+        "name": "Network Protocols",
+        "description": "In-depth exploration of essential network protocols and how they support communication.",
+        "course": "CS104",
+        "lessons": [
+          {
+            "_id": "L404",
+            "name": "TCP/IP Protocol Suite",
+            "description": "Understanding the TCP/IP stack and the protocols that work at each layer.",
+            "module": "M402"
+          },
+          {
+            "_id": "L405",
+            "name": "IPv4 and IPv6",
+            "description": "Introduction to IP addressing, IPv4 vs IPv6, and how IP addresses are structured and assigned.",
+            "module": "M402"
+          },
+          {
+            "_id": "L406",
+            "name": "DNS and DHCP",
+            "description": "How the Domain Name System (DNS) and Dynamic Host Configuration Protocol (DHCP) work to manage network communication.",
+            "module": "M402"
+          }
+        ]
+      },
+      {
+        "_id": "M403",
+        "name": "Routing and Switching",
+        "description": "An overview of routing and switching technologies in networking, including algorithms and devices.",
+        "course": "CS104",
+        "lessons": [
+          {
+            "_id": "L407",
+            "name": "Routing Principles",
+            "description": "Fundamentals of routing, including routing tables, protocols (RIP, OSPF), and routing algorithms.",
+            "module": "M403"
+          },
+          {
+            "_id": "L408",
+            "name": "Switching and VLANs",
+            "description": "Concepts of Ethernet switching, VLAN configuration, and their use in modern networks.",
+            "module": "M403"
+          },
+          {
+            "_id": "L409",
+            "name": "Routing Protocols and Techniques",
+            "description": "A deeper dive into advanced routing protocols, including BGP and advanced configurations.",
+            "module": "M403"
+          }
+        ]
+      },
+      {
+        "_id": "M404",
+        "name": "Network Security",
+        "description": "Principles of securing networks, covering both defensive and offensive strategies.",
+        "course": "CS104",
+        "lessons": [
+          {
+            "_id": "L410",
+            "name": "Introduction to Network Security",
+            "description": "Fundamentals of network security, including threats, vulnerabilities, and risk management.",
+            "module": "M404"
+          },
+          {
+            "_id": "L411",
+            "name": "Firewalls and VPNs",
+            "description": "Overview of network firewalls, VPNs, and secure tunneling techniques.",
+            "module": "M404"
+          },
+          {
+            "_id": "L412",
+            "name": "Network Intrusion Detection and Prevention",
+            "description": "Techniques and tools used for detecting and preventing network intrusions.",
+            "module": "M404"
+          }
+        ]
+      },
+      {
+        "_id": "M501",
+        "name": "Introduction to Computer Systems",
+        "description": "Overview of the basic components of computer systems, including architecture, organization, and operation.",
+        "course": "CS105",
+        "lessons": [
+          {
+            "_id": "L501",
+            "name": "Computer Architecture Basics",
+            "description": "Introduction to computer architecture, including the function of major components like the CPU, memory, and I/O devices.",
+            "module": "M501"
+          },
+          {
+            "_id": "L502",
+            "name": "Digital Logic and Gates",
+            "description": "Fundamentals of digital logic, Boolean algebra, and logic gates used in computer systems.",
+            "module": "M501"
+          },
+          {
+            "_id": "L503",
+            "name": "Instruction Set Architecture",
+            "description": "Understanding the architecture of processors, including instruction formats, addressing modes, and the control unit.",
+            "module": "M501"
+          }
+        ]
+      },
+      {
+        "_id": "M502",
+        "name": "Processor Design and Memory Systems",
+        "description": "In-depth exploration of processor design, memory hierarchies, and cache management.",
+        "course": "CS105",
+        "lessons": [
+          {
+            "_id": "L504",
+            "name": "CPU Design and Execution",
+            "description": "Designing and understanding the execution pipeline of a central processing unit (CPU).",
+            "module": "M502"
+          },
+          {
+            "_id": "L505",
+            "name": "Memory Hierarchies",
+            "description": "Understanding different levels of memory (registers, cache, RAM) and their role in system performance.",
+            "module": "M502"
+          },
+          {
+            "_id": "L506",
+            "name": "Cache Design and Optimization",
+            "description": "Techniques for designing and optimizing memory caches for better system performance.",
+            "module": "M502"
+          }
+        ]
+      },
+      {
+        "_id": "M503",
+        "name": "Operating Systems Fundamentals",
+        "description": "Foundational knowledge of operating systems, including processes, threads, and memory management.",
+        "course": "CS105",
+        "lessons": [
+          {
+            "_id": "L507",
+            "name": "Introduction to Operating Systems",
+            "description": "Basic concepts of operating systems, including process management and memory management.",
+            "module": "M503"
+          },
+          {
+            "_id": "L508",
+            "name": "Processes and Threads",
+            "description": "Understanding processes and threads, their scheduling, and synchronization in modern operating systems.",
+            "module": "M503"
+          },
+          {
+            "_id": "L509",
+            "name": "Memory Management Techniques",
+            "description": "Exploration of memory management strategies such as paging, segmentation, and virtual memory.",
+            "module": "M503"
+          }
+        ]
+      },
+      {
+        "_id": "M504",
+        "name": "I/O Devices and System Troubleshooting",
+        "description": "Study of input/output devices, communication methods, and troubleshooting computer systems.",
+        "course": "CS105",
+        "lessons": [
+          {
+            "_id": "L510",
+            "name": "Input/Output Devices",
+            "description": "Study of I/O devices such as keyboards, displays, and storage devices, and their interface with the computer system.",
+            "module": "M504"
+          },
+          {
+            "_id": "L511",
+            "name": "Interrupt Handling",
+            "description": "Understanding how interrupt-driven I/O works and its impact on system performance.",
+            "module": "M504"
+          },
+          {
+            "_id": "L512",
+            "name": "Troubleshooting Computer Systems",
+            "description": "Techniques for diagnosing and fixing common hardware and software issues in computer systems.",
+            "module": "M504"
+          }
+        ]
+      },
+      {
+        "_id": "M601",
+        "name": "Introduction to Object-Oriented Design",
+        "description": "Fundamentals of object-oriented design, including classes, objects, and basic design principles.",
+        "course": "CS106",
+        "lessons": [
+          {
+            "_id": "L601",
+            "name": "Classes and Objects",
+            "description": "Introduction to classes and objects, covering their role in object-oriented programming and design.",
+            "module": "M601"
+          },
+          {
+            "_id": "L602",
+            "name": "Encapsulation and Abstraction",
+            "description": "Understanding encapsulation and abstraction in object-oriented design and their importance in software modularity.",
+            "module": "M601"
+          },
+          {
+            "_id": "L603",
+            "name": "Design Principles Overview",
+            "description": "Overview of key object-oriented design principles such as SOLID and DRY principles.",
+            "module": "M601"
+          }
+        ]
+      },
+      {
+        "_id": "M602",
+        "name": "Inheritance and Polymorphism",
+        "description": "Detailed study of inheritance and polymorphism as fundamental object-oriented design concepts.",
+        "course": "CS106",
+        "lessons": [
+          {
+            "_id": "L604",
+            "name": "Inheritance Basics",
+            "description": "Understanding the concept of inheritance and how it promotes code reusability and hierarchy.",
+            "module": "M602"
+          },
+          {
+            "_id": "L605",
+            "name": "Polymorphism and Method Overriding",
+            "description": "Exploring polymorphism, including method overriding and the benefits of runtime flexibility.",
+            "module": "M602"
+          },
+          {
+            "_id": "L606",
+            "name": "Abstract Classes and Interfaces",
+            "description": "Study of abstract classes and interfaces, and their role in achieving polymorphism and abstraction in design.",
+            "module": "M602"
+          }
+        ]
+      },
+      {
+        "_id": "M603",
+        "name": "Design Patterns",
+        "description": "Exploration of common design patterns used in object-oriented design to solve recurring design problems.",
+        "course": "CS106",
+        "lessons": [
+          {
+            "_id": "L607",
+            "name": "Introduction to Design Patterns",
+            "description": "Overview of common design patterns and their benefits in software design.",
+            "module": "M603"
+          },
+          {
+            "_id": "L608",
+            "name": "Creational Patterns",
+            "description": "In-depth study of creational design patterns like Singleton, Factory, and Abstract Factory.",
+            "module": "M603"
+          },
+          {
+            "_id": "L609",
+            "name": "Structural Patterns",
+            "description": "Understanding structural design patterns such as Adapter, Bridge, and Composite.",
+            "module": "M603"
+          },
+          {
+            "_id": "L610",
+            "name": "Behavioral Patterns",
+            "description": "Study of behavioral patterns like Observer, Strategy, and Command.",
+            "module": "M603"
+          }
+        ]
+      },
+      {
+        "_id": "M604",
+        "name": "Modeling and Problem Solving",
+        "description": "Techniques for modeling real-world problems and designing object-oriented solutions.",
+        "course": "CS106",
+        "lessons": [
+          {
+            "_id": "L611",
+            "name": "Problem Modeling with Objects",
+            "description": "How to model real-world problems using classes and objects, and break down complex systems.",
+            "module": "M604"
+          },
+          {
+            "_id": "L612",
+            "name": "Object-Oriented Analysis",
+            "description": "Understanding the process of analyzing problems and designing object-oriented solutions.",
+            "module": "M604"
+          },
+          {
+            "_id": "L613",
+            "name": "Case Studies and Solution Implementation",
+            "description": "Applying object-oriented design principles to real-world case studies and problem-solving exercises.",
+            "module": "M604"
+          }
+        ]
+      },
+        {
+          "_id": "M801",
+          "name": "Introduction to Software Systems",
+          "description": "Introduction to the principles of software systems, focusing on basic concepts and methodologies used in software development.",
+          "course": "CS108",
+          "lessons": [
+            {
+              "_id": "L801",
+              "name": "Software Development Life Cycle",
+              "description": "Overview of the software development life cycle, including requirement gathering, design, implementation, and testing.",
+              "module": "M801"
+            },
+            {
+              "_id": "L802",
+              "name": "Basic Programming Practices",
+              "description": "Introduction to programming best practices such as code organization, debugging, and version control.",
+              "module": "M801"
+            },
+            {
+              "_id": "L803",
+              "name": "Collaborative Software Development",
+              "description": "Techniques and tools for collaborative software development, focusing on teamwork and communication.",
+              "module": "M801"
+            }
+          ]
+        },
+        {
+          "_id": "M802",
+          "name": "Data Structures and Algorithms",
+          "description": "Focus on fundamental data structures and algorithms, with practical programming assignments and problem-solving techniques.",
+          "course": "CS108",
+          "lessons": [
+            {
+              "_id": "L804",
+              "name": "Introduction to Data Structures",
+              "description": "Overview of basic data structures such as arrays, linked lists, and stacks, and their applications in problem-solving.",
+              "module": "M802"
+            },
+            {
+              "_id": "L805",
+              "name": "Sorting and Searching Algorithms",
+              "description": "Study of basic algorithms such as quicksort, mergesort, and binary search, including performance analysis.",
+              "module": "M802"
+            },
+            {
+              "_id": "L806",
+              "name": "Algorithm Complexity",
+              "description": "Understanding algorithmic complexity, big-O notation, and how to analyze the efficiency of algorithms.",
+              "module": "M802"
+            }
+          ]
+        },
+        {
+          "_id": "M803",
+          "name": "Programming Languages and Paradigms",
+          "description": "Exploration of various programming paradigms and languages, and their use in solving different types of computational problems.",
+          "course": "CS108",
+          "lessons": [
+            {
+              "_id": "L807",
+              "name": "Introduction to Programming Languages",
+              "description": "Overview of programming languages, their features, and how they relate to different types of computational problems.",
+              "module": "M803"
+            },
+            {
+              "_id": "L808",
+              "name": "Procedural Programming",
+              "description": "Introduction to procedural programming, focusing on control structures, functions, and modular design.",
+              "module": "M803"
+            },
+            {
+              "_id": "L809",
+              "name": "Object-Oriented Programming",
+              "description": "Introduction to object-oriented programming (OOP), including classes, objects, inheritance, and polymorphism.",
+              "module": "M803"
+            }
+          ]
+        },
+        {
+          "_id": "M804",
+          "name": "Software Development Methodologies",
+          "description": "Study of software development methodologies, focusing on agile and waterfall models and their applications in real-world projects.",
+          "course": "CS108",
+          "lessons": [
+            {
+              "_id": "L810",
+              "name": "Agile Development",
+              "description": "Introduction to agile software development, including Scrum and Kanban frameworks, and iterative development.",
+              "module": "M804"
+            },
+            {
+              "_id": "L811",
+              "name": "Waterfall Methodology",
+              "description": "Exploring the waterfall software development model, including its stages and application in large-scale projects.",
+              "module": "M804"
+            }
+          ]
+        },
+        {
+          "_id": "M805",
+          "name": "Computational Problem Solving",
+          "description": "Techniques for solving computational problems, focusing on algorithmic thinking and problem decomposition.",
+          "course": "CS107",
+          "lessons": [
+            {
+              "_id": "L812",
+              "name": "Problem Solving Strategies",
+              "description": "Overview of problem-solving techniques such as divide-and-conquer, dynamic programming, and greedy algorithms.",
+              "module": "M805"
+            },
+            {
+              "_id": "L813",
+              "name": "Practice with Data Structures",
+              "description": "Hands-on exercises in implementing and using data structures like trees, graphs, and hash tables for solving real-world problems.",
+              "module": "M805"
+            },
+            {
+              "_id": "L814",
+              "name": "Efficient Algorithms",
+              "description": "Study of algorithm efficiency, including optimizations for time and space complexity in solving problems.",
+              "module": "M805"
+            }
+          ]
+        },
+        {
+          "_id": "M806",
+          "name": "Software Design and Implementation",
+          "description": "Focus on the design and implementation of software systems, emphasizing modularity, testing, and optimization.",
+          "course": "CS107",
+          "lessons": [
+            {
+              "_id": "L815",
+              "name": "Designing Software Systems",
+              "description": "Techniques for designing software systems, including architectural design, design patterns, and code organization.",
+              "module": "M806"
+            },
+            {
+              "_id": "L816",
+              "name": "Implementing Software Solutions",
+              "description": "Focus on converting design specifications into code, including implementation best practices and code reviews.",
+              "module": "M806"
+            },
+            {
+              "_id": "L817",
+              "name": "Testing and Debugging",
+              "description": "Study of software testing techniques, including unit testing, integration testing, and debugging techniques.",
+              "module": "M806"
+            }
+          ]
+        }      
+  ]

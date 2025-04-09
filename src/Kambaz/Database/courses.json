@@ -1,0 +1,91 @@
+
+[
+    {
+      "_id": "CS108",
+        "name": "CS2501 Lab",
+        "number": "CS2501",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course is the lab for CS2500. It provides hands-on experience with the principles and practices of designing and implementing software systems. Students will work on programming assignments, projects, and experiments to reinforce the concepts learned in CS2500. The lab will cover topics such as algorithms, data structures, programming languages, and software development methodologies, preparing students for careers in software development, computer science research, and related fields.",
+        "image_filepath": "/images/class8.gif"
+      },
+    {
+      "_id": "CS107",
+        "name": "Fundamentals of Computer Science I",
+        "number": "CS2500",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of the fundamentasl of computer science, focusing on the principles and practices of designing and implementing software systems. Topics include algorithms, data structures, programming languages, and software development methodologies. Students will learn to analyze and solve computational problems, design and implement software solutions, and evaluate their performance, preparing them for careers in software development, computer science research, and related fields.",
+        "image_filepath": "/images/class7.gif"
+      },
+    {
+      "_id": "CS106",
+        "name": "Object Oriented Design",
+        "number": "CS3500",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of object oriented design, focusing on the principles and practices of designing and implementing object-oriented software systems. Topics include classes, objects, inheritance, polymorphism, and design patterns. Students will learn to analyze and model real-world problems, design object-oriented solutions, and implement them using modern programming languages and tools, preparing them for careers in software development, software architecture, and related fields.",
+        "image_filepath": "/images/class6.gif"
+      },
+    {
+      "_id": "CS105",
+        "name": "Computer Systems",
+        "number": "CS3560",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of computer systems, focusing on the architecture, organization, and operation of modern computing devices. Topics include digital logic, processor design, memory systems, input/output devices, and operating systems. Students will learn to design and implement computer systems, analyze their performance, and troubleshoot common issues, preparing them for careers in computer engineering, embedded systems, and related fields.",
+        "image_filepath": "/images/class5.gif"
+      },
+    {
+      "_id": "CS104",
+        "name": "Network Fundamentals",
+        "number": "CS4700",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of network fundamentals, focusing on the principles and technologies underlying modern computer networks. Topics include network architecture, protocols, routing, switching, and security. Students will learn to design, implement, and troubleshoot network infrastructures, preparing them for careers in network engineering, cybersecurity, and related fields.",
+        "image_filepath": "/images/class4.gif"
+      },
+    {
+      "_id": "CS103",
+        "name": "Programming Languages",
+        "number": "CS4400",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of programming languages and paradigms, focusing on the principles and concepts underlying modern programming languages. Topics include syntax and semantics, data types, control structures, functions, and object-oriented programming. Students will learn to design and implement programming languages, analyze their features, and evaluate their suitability for different applications, preparing them for careers in software development, language design, and related fields.",
+        "image_filepath": "/images/class3.gif"
+      },
+    {
+      "_id": "CS102",
+        "name": "Large Scale Data Storage and Retrieval",
+        "number": "DS4300",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "DS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of large-scale data storage and retrieval systems, focusing on the design, implementation, and optimization of databases and data warehouses. Topics include relational and non-relational databases, distributed storage systems, data modeling, query optimization, and data indexing. Students will learn to build scalable and efficient data storage solutions using modern technologies and tools, preparing them for careers in data engineering, database administration, and related fields.",
+        "image_filepath": "/images/class2.gif"
+      },
+      {
+        "_id": "CS101",
+        "name": "Web Development",
+        "number": "CS4550",
+        "startDate": "2023-01-10",
+        "endDate": "2023-05-15",
+        "department": "CS",
+        "credits": 4,
+        "description": "This course provides an in-depth exploration of web development technologies and practices, focusing on the design and implementation of dynamic web applications. Topics include client-side and server-side programming, web frameworks, databases, and security. Students will learn to build interactive and responsive web applications using modern tools and techniques, preparing them for careers in web development and related fields.",
+        "image_filepath": "/images/class1.gif"
+      }
+  ]
