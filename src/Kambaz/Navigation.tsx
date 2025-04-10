@@ -1,6 +1,6 @@
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
-import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
+import { LiaBookSolid, } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import { ListGroup } from "react-bootstrap";
@@ -12,11 +12,10 @@ export default function KambazNavigation() {
         { label: "Courses", path: "/Kambaz/Courses", icon: LiaBookSolid },
         { label: "Calendar", path: "/Kambaz/Calendar", icon: IoCalendarOutline },
         { label: "Inbox", path: "/Kambaz/Inbox", icon: FaInbox },
-        { label: "Labs", path: "/Labs", icon: LiaCogSolid },
     ];
     return (
         <ListGroup id="wd-kambaz-navigation" style={{ width: 120 }}
-            className="rounded-0 position-fixed bottom-0 top-0 d-flex flex-column justify-content-between align-items-center bg-black z-2 pt-4 pb-4">
+            className="rounded-0 position-fixed bottom-0 top-0 d-flex flex-column justify-content-between align-items-center bg-black z-2 pt-4 pb-4 pl-3">
             <ListGroup.Item id="wd-neu-link" target="_blank" href="https://www.northeastern.edu/"
                 action className="bg-black border-0 text-center">
                 <img src="images/neu-monogram.svg" width="75px" /></ListGroup.Item>

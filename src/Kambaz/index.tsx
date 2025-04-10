@@ -86,9 +86,11 @@ export default function Kambaz() {
 
     return (
         <Session>
-            <div id="wd-kambaz">
-                <KambazNavigation />
-                <div className="wd-main-content-offset p-3">
+            <div id="wd-kambaz" className="d-flex">
+                <div className="wd-sidebar bg-light border-end vh-100 flex-shrink-0" style={{ width: "100px" }}>
+                    {currentUser ? <KambazNavigation /> : null}
+                </div>
+                <div className="wd-main-content flex-grow-1 p-4 overflow-auto">
                     <Routes>
                         <Route path="/" element={<Navigate to="Account" />} />
                         <Route path="/Account/*" element={<Account />} />
@@ -127,4 +129,3 @@ export default function Kambaz() {
         </Session>
     );
 }
-

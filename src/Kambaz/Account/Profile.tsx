@@ -18,6 +18,7 @@ export default function Profile() {
         if (!currentUser) return navigate("/Kambaz/Account/Signin");
         setProfile(currentUser);
     };
+
     const signout = async () => {
         await client.signout();
         dispatch(setCurrentUser(null));
@@ -26,7 +27,7 @@ export default function Profile() {
 
     useEffect(() => { fetchProfile(); }, []);
     return (
-        <div id="wd-profile-screen">
+        <div id="wd-profile-screen" className="w-25">
             <h1>Profile</h1>
             {profile && (
                 <div>
