@@ -64,7 +64,7 @@ export default function Signin() {
                         </Button>
 
                         <div className="text-center">
-                            <Link to="/Kambaz/Account/Signup" className="text-decoration-none" id="wd-signup-link">
+                            <Link to="/Kambaz/Account/Signup" className="text-decoration-none text-danger" id="wd-signup-link">
                                 Sign up
                             </Link>
                         </div>

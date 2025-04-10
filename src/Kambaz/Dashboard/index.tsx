@@ -61,26 +61,24 @@ export default function Dashboard(
                                                 {course.name} </Card.Title>
                                             <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
                                                 {course.description} </Card.Text>
-                                            <div className="d-flex justify-content-between">
-                                                <Button variant="danger"> Go </Button>
-                                                <FacultyContent>
-                                                    <Button id="wd-edit-course-click"
-                                                        onClick={(event) => {
-                                                            event.preventDefault();
-                                                            setCourse(course);
-                                                        }}
-                                                        className="btn btn-danger me-2">
-                                                        Edit
-                                                    </Button>
-                                                    <Button onClick={(event) => {
+                                            <div className="d-flex justify-content-between">                                                <FacultyContent>
+                                                <Button id="wd-edit-course-click"
+                                                    onClick={(event) => {
                                                         event.preventDefault();
-                                                        deleteCourse(course._id);
-                                                    }} className="btn btn-danger float-end"
-                                                        id="wd-delete-course-click">
-                                                        Delete
-                                                    </Button>
+                                                        setCourse(course);
+                                                    }}
+                                                    className="btn btn-danger me-2">
+                                                    Edit
+                                                </Button>
+                                                <Button onClick={(event) => {
+                                                    event.preventDefault();
+                                                    deleteCourse(course._id);
+                                                }} className="btn btn-danger float-end"
+                                                    id="wd-delete-course-click">
+                                                    Delete
+                                                </Button>
 
-                                                </FacultyContent>
+                                            </FacultyContent>
                                                 <StudentContent>
                                                     {enrolling && (
                                                         <button onClick={(event) => {

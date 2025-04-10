@@ -27,7 +27,7 @@ export default function Profile() {
 
     useEffect(() => { fetchProfile(); }, []);
     return (
-        <div id="wd-profile-screen">
+        <div id="wd-profile-screen" className="w-25">
             <h1>Profile</h1>
             {profile && (
                 <div>
