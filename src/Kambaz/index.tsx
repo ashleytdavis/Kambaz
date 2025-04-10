@@ -86,9 +86,13 @@ export default function Kambaz() {
 
     return (
         <Session>
-            <div id="wd-kambaz">
-                <KambazNavigation />
-                <div className="wd-main-content-offset p-3">
+            <div id="wd-kambaz" className="d-flex">
+                <div className="wd-sidebar bg-light border-end vh-100">
+                    <ProtectedRoute>
+                        <KambazNavigation />
+                    </ProtectedRoute>
+                </div>
+                <div className="wd-main-content flex-grow-1 d-flex justify-content-center align-items-center">
                     <Routes>
                         <Route path="/" element={<Navigate to="Account" />} />
                         <Route path="/Account/*" element={<Account />} />
@@ -127,4 +131,3 @@ export default function Kambaz() {
         </Session>
     );
 }
-
