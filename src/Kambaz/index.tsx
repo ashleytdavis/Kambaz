@@ -88,9 +88,7 @@ export default function Kambaz() {
         <Session>
             <div id="wd-kambaz" className="d-flex">
                 <div className="wd-sidebar bg-light border-end vh-100">
-                    {/* <ProtectedRoute> */}
-                    <KambazNavigation />
-                    {/* </ProtectedRoute> */}
+                    {currentUser ? <KambazNavigation /> : <></>}
                 </div>
                 <div className="wd-main-content flex-grow-1 d-flex justify-content-center align-items-center">
                     <Routes>

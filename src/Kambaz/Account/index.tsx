@@ -5,15 +5,12 @@ import Signup from "./Signup";
 import AccountNavigation from "./Navigation";
 import { useSelector } from "react-redux";
 import Users from "./Users";
-import ProtectedRoute from "./ProtectedRoute";
 export default function Account() {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     return (
         <div id="wd-account-screen">
             <div>
-                {/* <ProtectedRoute> */}
-                    <AccountNavigation />
-                {/* </ProtectedRoute> */}
+                <AccountNavigation />
             </div>
             <div>
                 <Routes>
@@ -28,4 +25,3 @@ export default function Account() {
         </div >
     );
 }
-
