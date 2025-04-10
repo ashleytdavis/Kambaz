@@ -11,9 +11,9 @@ export default function Account() {
     return (
         <div id="wd-account-screen">
             <div>
-                <ProtectedRoute>
+                {/* <ProtectedRoute> */}
                     <AccountNavigation />
-                </ProtectedRoute>
+                {/* </ProtectedRoute> */}
             </div>
             <div>
                 <Routes>
