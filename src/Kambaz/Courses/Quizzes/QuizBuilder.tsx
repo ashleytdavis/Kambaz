@@ -45,7 +45,6 @@ export default function QuizBuilder() {
     availableFrom: "",
     availableUntil: "",
     published: false,
-    course: cid,
     questions: [] as Question[],
     points: 0,
   });
