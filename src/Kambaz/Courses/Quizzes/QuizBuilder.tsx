@@ -1,4 +1,4 @@
-import { Form, Button, Container, Row, Col, Card, Tabs, Tab } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, Tabs, Tab, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -7,13 +7,23 @@ import * as quizClient from "./client";
 import { FaRegKeyboard } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa6";
 import { CgArrowsExpandRight } from "react-icons/cg";
+import AddQuestionForm from "./AddQuestionForm";
+
+type Question = {
+  _id: string;
+  quiz_id: string;
+  question_text: string;
+  question_type: "True or False" | "Multiple Choice" | "Fill In The Blank";
+  options?: string[];
+  correct_answer: string | boolean | string[];
+  points: number;
+};
 
 export default function QuizBuilder() {
   const { cid } = useParams();
   const dispatch = useDispatch();
   const [wordCount, setWordCount] = useState(0);
   const [activeTab, setActiveTab] = useState("details");
-  const [questions, setQuestions] = useState<any[]>([]);
   const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
 
   const [quiz, setQuiz] = useState({
@@ -34,9 +44,8 @@ export default function QuizBuilder() {
     availableUntil: "",
     published: false,
     course: cid,
-    questions: [],
+    questions: [] as Question[],
     points: 0,
-
   });
 
   const handleCreateQuiz = async () => {
@@ -44,9 +53,24 @@ export default function QuizBuilder() {
     dispatch(addQuiz(createdQuiz));
   };
 
+  const handleAddQuestion = (newQuestion: Question) => {
+    setQuiz((prevQuiz) => ({
+      ...prevQuiz,
+      questions: [...prevQuiz.questions, newQuestion],
+    }));
+  };
+
   useEffect(() => {
     setWordCount(quiz.description.split(" ").length - 1)
   }, [quiz])
+
+  useEffect(() => {
+    let newPoints = 0;
+    for (const question of quiz.questions) {
+      newPoints += question.points;
+    }
+    setQuiz((prevQuiz) => ({ ...prevQuiz, points: newPoints }));
+  }, [quiz.questions]);
 
   return (
     <Container className="mt-4">
@@ -209,50 +233,55 @@ export default function QuizBuilder() {
                 />
               </Card.Body>
             </Card>
-
-            <div className="d-flex justify-content-end gap-2">
-              <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
-                <Button variant="light">Cancel</Button>
-              </Link>
-              <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
-                <Button variant="danger" onClick={handleCreateQuiz}>Save</Button>
-              </Link>
-            </div>
           </Form>
         </Tab>
 
-
-
-
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
-          <Card className="p-4">
-            <h5>Add Questions</h5>
-            <Form.Group className="mb-3">
-              <Form.Label>Question</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter question text"
-                onChange={(e) => handleAddQuestion({ text: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Answer</Form.Label>
-              <Form.Control type="text" placeholder="Enter answer" />
-            </Form.Group>
-            <Button variant="primary" onClick={() => handleAddQuestion({ text: "Sample Question" })}>
-              Add Question
-            </Button>
-
-            <hr />
-            <h6>Questions List</h6>
-            <ul>
-              {questions.map((q, index) => (
-                <li key={index}>{q.text}</li>
-              ))}
-            </ul>
+          <Card className="p-4 shadow-sm border-0">
+            <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
+            <AddQuestionForm onSubmit={handleAddQuestion} quiz_id={cid || ""} />
+            <hr className="my-4" />
+            <h6 className="fw-bold text-secondary">Questions List</h6>
+            {quiz.questions.length > 0 ? (
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>Question Text</th>
+                    <th>Question Type</th>
+                    <th>Correct Answer</th>
+                    <th>Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {quiz.questions.map((q, index) => (
+                    <tr key={index}>
+                      <td>{q.question_text}</td>
+                      <td>{q.question_type}</td>
+                      <td>
+                        {Array.isArray(q.correct_answer)
+                          ? q.correct_answer.join(", ")
+                          : q.correct_answer.toString()}
+                      </td>
+                      <td>{q.points}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            ) : (
+              <p className="text-muted">No questions added yet.</p>
+            )}
           </Card>
         </Tab>
       </Tabs>
+      <hr className="mt-4" />
+      <div className="d-flex justify-content-end gap-2 mt-4">
+        <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+          <Button variant="light">Cancel</Button>
+        </Link>
+        <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+          <Button variant="danger" onClick={handleCreateQuiz}>Save</Button>
+        </Link>
+      </div>
     </Container>
   );
 }

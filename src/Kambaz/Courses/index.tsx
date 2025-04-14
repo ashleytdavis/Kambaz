@@ -9,9 +9,9 @@ import { Route, Routes, useParams, useLocation } from "react-router";
 import PeopleTable from "./People/Table";
 import * as usersClient from "./client"
 import { useEffect, useState } from "react";
-import Quizzes from "./Quizes";
-import QuizBuilder from "./Quizes/QuizBuilder";
-import QuizEditor from "./Quizes/QuizEditor";
+import Quizzes from "./Quizzes";
+import QuizBuilder from "./Quizzes/QuizBuilder";
+import QuizEditor from "./Quizzes/QuizEditor";
 
 export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams();
