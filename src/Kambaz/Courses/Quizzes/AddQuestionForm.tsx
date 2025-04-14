@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Card } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { v4 as uuidv4 } from "uuid"
+import { v4 as uuidv4 } from "uuid";
 
 type AddQuestionFormProps = {
     onSubmit: (questions: Question[]) => void;
@@ -78,7 +78,7 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
         onSubmit(questions);
         setQuestions([
             {
-                _id: crypto.randomUUID(),
+                _id: uuidv4(),
                 quiz_id: quiz_id,
                 question_text: "",
                 question_type: "True or False",
@@ -91,10 +91,17 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
 
     return (
         <Form onSubmit={handleSubmit}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <ul style={{ width: "80%" }}>
-                    {questions.map((question, index) => (
-                        <li key={index}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                {questions.map((question, index) => (
+                    <Card key={index} style={{ width: "80%", marginBottom: "20px" }}>
+                        <Card.Body>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <h5>Question {index + 1}</h5>
+                                <Button variant="danger" onClick={() => handleRemoveQuestion(index)}>
+                                    <RiDeleteBinLine size={20} />
+                                </Button>
+                            </div>
+
                             <Form.Group className="mb-3">
                                 <Form.Label>Question Type</Form.Label>
                                 <Form.Select
@@ -175,20 +182,14 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
                                     required
                                 />
                             </Form.Group>
-
-                            <Button variant="danger" onClick={() => handleRemoveQuestion(index)}>
-                                <RiDeleteBinLine size={20} />
-                            </Button>
-                            <hr />
-                        </li>
-                    ))}
-                </ul>
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-                    <Button variant="secondary" onClick={handleAddQuestion}>
-                        <AiOutlinePlus size={20} />
-                    </Button>
-                </div>
+                        </Card.Body>
+                    </Card>
+                ))}
+                <Button variant="secondary" onClick={handleAddQuestion} style={{ width: "100px", height: "100px", fontSize: "40px" }}>
+                    <AiOutlinePlus />
+                </Button>
             </div>
+
         </Form>
     );
 }

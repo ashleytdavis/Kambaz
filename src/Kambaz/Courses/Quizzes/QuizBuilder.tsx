@@ -1,4 +1,4 @@
-import { Form, Button, Container, Row, Col, Card, Tabs, Tab, Table } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, Tabs, Tab } from "react-bootstrap";
 import { Link, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { FaRegKeyboard } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa6";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import AddQuestionForm from "./AddQuestionForm";
+import { v4 as uuidv4 } from "uuid";
 
 type Question = {
   _id: string;
@@ -27,6 +28,7 @@ export default function QuizBuilder() {
   const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
 
   const [quiz, setQuiz] = useState({
+    _id: uuidv4(),
     title: "",
     description: "",
     assignmentGroup: "",
@@ -239,37 +241,7 @@ export default function QuizBuilder() {
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
           <Card className="p-4 shadow-sm border-0">
             <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
-            <AddQuestionForm onSubmit={handleAddQuestion} quiz_id={cid || ""} />
-            <hr className="my-4" />
-            <h6 className="fw-bold text-secondary">Questions List</h6>
-            {quiz.questions.length > 0 ? (
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>Question Text</th>
-                    <th>Question Type</th>
-                    <th>Correct Answer</th>
-                    <th>Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {quiz.questions.map((q, index) => (
-                    <tr key={index}>
-                      <td>{q.question_text}</td>
-                      <td>{q.question_type}</td>
-                      <td>
-                        {Array.isArray(q.correct_answer)
-                          ? q.correct_answer.join(", ")
-                          : q.correct_answer.toString()}
-                      </td>
-                      <td>{q.points}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            ) : (
-              <p className="text-muted">No questions added yet.</p>
-            )}
+            <AddQuestionForm onSubmit={(questions) => questions.forEach(handleAddQuestion)} quiz_id={quiz._id} />
           </Card>
         </Tab>
       </Tabs>
