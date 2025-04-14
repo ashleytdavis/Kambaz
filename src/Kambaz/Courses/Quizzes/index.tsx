@@ -1,7 +1,5 @@
 import { ListGroup, Button } from "react-bootstrap";
 import { BsGripVertical, BsCaretDownFill, BsSearch, BsPlusLg } from "react-icons/bs";
-import { FaRegListAlt } from "react-icons/fa";
-import AssignmentControlButtonGroup from "../Assignments/AssignmentControlButtonGroup.tsx";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { useParams } from "react-router";
 import FacultyContent from "../../FacultyContent.ts";
@@ -10,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as quizClient from "./client.ts";
 import { setQuizzes } from "./reducer.ts";
 import { useEffect } from "react";
+import QuizButtonGroup from "./QuizButtonGroup.tsx";
+import { RxRocket } from "react-icons/rx";
 
 export default function Quizzes() {
     const { cid } = useParams();
@@ -71,22 +71,20 @@ export default function Quizzes() {
                                     className="border-1"
                                 >
                                     <div className="d-flex align-items-center py-2">
-                                        <BsGripVertical className="me-2 text-secondary" />
-                                        <FaRegListAlt className="me-2 text-success" />
+                                        <RxRocket className="me-2 fs-4 me-4 ms-2" />
                                         <div className="flex-grow-1">
-                                            <a href={`#/Kambaz/Courses/${cid}/Quizzes/${quiz._id}`}
+                                            <a href={`#/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Editor`}
                                                 className="wd-quiz-link fw-bold text-decoration-none text-dark" >
                                                 {quiz.title || "Untitled Quiz"}
                                             </a>
                                             <br />
                                             <small>
-                                                <span className="text-danger">Multiple Modules</span>
-                                                <span className="text-secondary"> | Not available until {quiz.date} at 12:00am |</span>
+                                                <span className="text-secondary">Not available until {quiz.date} at 12:00am</span>
                                                 <br />
                                                 <span className="text-secondary">Due {quiz.dueDate} at 11:59pm | {quiz.points} pts</span>
                                             </small>
                                         </div>
-                                        <AssignmentControlButtonGroup assignmentID={quiz._id} />
+                                        <QuizButtonGroup quizId={quiz._id} />
                                     </div>
                                 </ListGroup.Item>
                             ))}

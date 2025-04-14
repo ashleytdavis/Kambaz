@@ -7,46 +7,81 @@ import * as quizClient from "./client";
 import { FaRegKeyboard } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa6";
 import { CgArrowsExpandRight } from "react-icons/cg";
+import AddQuestionForm from "./AddQuestionForm";
+import { v4 as uuidv4 } from "uuid";
+
+type Question = {
+  _id: string;
+  quiz_id: string;
+  question_text: string;
+  question_type: "True or False" | "Multiple Choice" | "Fill In The Blank";
+  options?: string[];
+  correct_answer: string | boolean | string[];
+  points: number;
+};
 
 export default function QuizBuilder() {
   const { cid } = useParams();
   const dispatch = useDispatch();
   const [wordCount, setWordCount] = useState(0);
   const [activeTab, setActiveTab] = useState("details");
-  const [questions, setQuestions] = useState<any[]>([]);
   const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
 
   const [quiz, setQuiz] = useState({
+    _id: uuidv4(),
     title: "",
     description: "",
-    assignmentGroup: "",
+    type: "Graded Quiz",
+    assignmentGroup: "Quizzes",
     shuffleAnswers: true,
-    timeLimit: "",
+    timeLimit: { hours: 0, minutes: 20 },
     multipleAttempts: false,
-    maxAttempts: 0,
+    maxAttempts: 1,
     showCorrectAnswers: false,
     accessCode: "",
     oneQuestionAtATime: true,
     webcamRequired: false,
     lockQuestions: false,
-    dueDate: "",
-    availableFrom: "",
-    availableUntil: "",
+    dueDate: new Date(),
+    availableDate: new Date(),
+    untilDate: new Date(),
     published: false,
-    course: cid,
-    questions: [],
+    courseId: cid,
+    questions: [] as string[],
     points: 0,
-
   });
 
   const handleCreateQuiz = async () => {
-    const createdQuiz = await quizClient.createQuiz({ ...quiz, course: cid });
+    const savedQuestions = await Promise.all(quiz.questions.map((questionId) => quizClient.getQuestion(questionId)));
+    const createdQuiz = await quizClient.createQuiz({
+      ...quiz,
+      courseId: cid,
+      questions: savedQuestions.map((question) => question._id),
+    });
     dispatch(addQuiz(createdQuiz));
+  };
+
+  const handleAddQuestion = async (newQuestion: Question) => {
+    const savedQuestion = await quizClient.saveQuestion(newQuestion, quiz._id);
+    setQuiz((prevQuiz) => ({
+      ...prevQuiz,
+      questions: [...prevQuiz.questions, savedQuestion._id],
+    }));
   };
 
   useEffect(() => {
     setWordCount(quiz.description.split(" ").length - 1)
-  }, [quiz])
+  }, [quiz.description])
+
+  useEffect(() => {
+    let newPoints = 0;
+    for (const questionId of quiz.questions) {
+      quizClient.getQuestion(questionId).then((question: any) => {
+        newPoints += question.points;
+        setQuiz((prevQuiz) => ({ ...prevQuiz, points: newPoints }));
+      });
+    }
+  }, [quiz.questions]);
 
   return (
     <Container className="mt-4">
@@ -174,13 +209,23 @@ export default function QuizBuilder() {
                   {timeLimitEnabled && (
                     <Row className="mb-3">
                       <Col md={6}>
-                        <Form.Label className="text-end d-block">Time Limit (mins)</Form.Label>
+                        <Form.Label className="text-end d-block">Time Limit (hours)</Form.Label>
                       </Col>
                       <Col md={3}>
                         <Form.Control
                           type="number"
-                          value={quiz.timeLimit}
-                          onChange={(e) => setQuiz({ ...quiz, timeLimit: e.target.value })}
+                          value={quiz.timeLimit.hours}
+                          onChange={(e) => setQuiz({ ...quiz, timeLimit: { ...quiz.timeLimit, hours: parseInt(e.target.value) } })}
+                        />
+                      </Col>
+                      <Col md={6}>
+                        <Form.Label className="text-end d-block">Time Limit (minutes)</Form.Label>
+                      </Col>
+                      <Col md={3}>
+                        <Form.Control
+                          type="number"
+                          value={quiz.timeLimit.minutes}
+                          onChange={(e) => setQuiz({ ...quiz, timeLimit: { ...quiz.timeLimit, minutes: parseInt(e.target.value) } })}
                         />
                       </Col>
                     </Row>
@@ -195,64 +240,42 @@ export default function QuizBuilder() {
                 <Form.Control
                   type="datetime-local"
                   className="mb-3"
-                  onChange={(e) => setQuiz({ ...quiz, availableFrom: e.target.value })}
+                  value={quiz.availableDate.toISOString().slice(0, 16)}
+                  onChange={(e) => setQuiz({ ...quiz, availableDate: new Date(e.target.value) })}
                 />
                 <Form.Control
                   type="datetime-local"
                   className="mb-3"
-                  onChange={(e) => setQuiz({ ...quiz, availableUntil: e.target.value })}
+                  value={quiz.untilDate.toISOString().slice(0, 16)}
+                  onChange={(e) => setQuiz({ ...quiz, untilDate: new Date(e.target.value) })}
                 />
                 <Form.Label>Due Date</Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  onChange={(e) => setQuiz({ ...quiz, dueDate: e.target.value })}
+                  value={quiz.dueDate.toISOString().slice(0, 16)}
+                  onChange={(e) => setQuiz({ ...quiz, dueDate: new Date(e.target.value) })}
                 />
               </Card.Body>
             </Card>
-
-            <div className="d-flex justify-content-end gap-2">
-              <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
-                <Button variant="light">Cancel</Button>
-              </Link>
-              <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
-                <Button variant="danger" onClick={handleCreateQuiz}>Save</Button>
-              </Link>
-            </div>
           </Form>
         </Tab>
 
-
-
-
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
-          <Card className="p-4">
-            <h5>Add Questions</h5>
-            <Form.Group className="mb-3">
-              <Form.Label>Question</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter question text"
-                onChange={(e) => handleAddQuestion({ text: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Answer</Form.Label>
-              <Form.Control type="text" placeholder="Enter answer" />
-            </Form.Group>
-            <Button variant="primary" onClick={() => handleAddQuestion({ text: "Sample Question" })}>
-              Add Question
-            </Button>
-
-            <hr />
-            <h6>Questions List</h6>
-            <ul>
-              {questions.map((q, index) => (
-                <li key={index}>{q.text}</li>
-              ))}
-            </ul>
+          <Card className="p-4 shadow-sm border-0">
+            <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
+            <AddQuestionForm onSubmit={(questions) => questions.forEach(handleAddQuestion)} quiz_id={quiz._id} />
           </Card>
         </Tab>
       </Tabs>
+      <hr className="mt-4" />
+      <div className="d-flex justify-content-end gap-2 mt-4">
+        <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+          <Button variant="light">Cancel</Button>
+        </Link>
+        <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+          <Button variant="danger" onClick={handleCreateQuiz}>Save</Button>
+        </Link>
+      </div>
     </Container>
   );
 }
