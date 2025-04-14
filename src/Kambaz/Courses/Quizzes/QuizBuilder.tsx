@@ -31,46 +31,56 @@ export default function QuizBuilder() {
     _id: uuidv4(),
     title: "",
     description: "",
-    assignmentGroup: "",
+    type: "Graded Quiz",
+    assignmentGroup: "Quizzes",
     shuffleAnswers: true,
-    timeLimit: "",
+    timeLimit: { hours: 0, minutes: 20 },
     multipleAttempts: false,
-    maxAttempts: 0,
+    maxAttempts: 1,
     showCorrectAnswers: false,
     accessCode: "",
     oneQuestionAtATime: true,
     webcamRequired: false,
     lockQuestions: false,
-    dueDate: "",
-    availableFrom: "",
-    availableUntil: "",
+    dueDate: new Date(),
+    availableDate: new Date(),
+    untilDate: new Date(),
     published: false,
-    questions: [] as Question[],
+    courseId: cid,
+    questions: [] as string[],
     points: 0,
   });
 
   const handleCreateQuiz = async () => {
-    const createdQuiz = await quizClient.createQuiz({ ...quiz, course: cid });
+    const savedQuestions = await Promise.all(quiz.questions.map((questionId) => quizClient.getQuestion(questionId)));
+    const createdQuiz = await quizClient.createQuiz({
+      ...quiz,
+      courseId: cid,
+      questions: savedQuestions.map((question) => question._id),
+    });
     dispatch(addQuiz(createdQuiz));
   };
 
-  const handleAddQuestion = (newQuestion: Question) => {
+  const handleAddQuestion = async (newQuestion: Question) => {
+    const savedQuestion = await quizClient.saveQuestion(newQuestion, quiz._id);
     setQuiz((prevQuiz) => ({
       ...prevQuiz,
-      questions: [...prevQuiz.questions, newQuestion],
+      questions: [...prevQuiz.questions, savedQuestion._id],
     }));
   };
 
   useEffect(() => {
     setWordCount(quiz.description.split(" ").length - 1)
-  }, [quiz])
+  }, [quiz.description])
 
   useEffect(() => {
     let newPoints = 0;
-    for (const question of quiz.questions) {
-      newPoints += question.points;
+    for (const questionId of quiz.questions) {
+      quizClient.getQuestion(questionId).then((question: any) => {
+        newPoints += question.points;
+        setQuiz((prevQuiz) => ({ ...prevQuiz, points: newPoints }));
+      });
     }
-    setQuiz((prevQuiz) => ({ ...prevQuiz, points: newPoints }));
   }, [quiz.questions]);
 
   return (
@@ -199,13 +209,23 @@ export default function QuizBuilder() {
                   {timeLimitEnabled && (
                     <Row className="mb-3">
                       <Col md={6}>
-                        <Form.Label className="text-end d-block">Time Limit (mins)</Form.Label>
+                        <Form.Label className="text-end d-block">Time Limit (hours)</Form.Label>
                       </Col>
                       <Col md={3}>
                         <Form.Control
                           type="number"
-                          value={quiz.timeLimit}
-                          onChange={(e) => setQuiz({ ...quiz, timeLimit: e.target.value })}
+                          value={quiz.timeLimit.hours}
+                          onChange={(e) => setQuiz({ ...quiz, timeLimit: { ...quiz.timeLimit, hours: parseInt(e.target.value) } })}
+                        />
+                      </Col>
+                      <Col md={6}>
+                        <Form.Label className="text-end d-block">Time Limit (minutes)</Form.Label>
+                      </Col>
+                      <Col md={3}>
+                        <Form.Control
+                          type="number"
+                          value={quiz.timeLimit.minutes}
+                          onChange={(e) => setQuiz({ ...quiz, timeLimit: { ...quiz.timeLimit, minutes: parseInt(e.target.value) } })}
                         />
                       </Col>
                     </Row>
@@ -220,17 +240,20 @@ export default function QuizBuilder() {
                 <Form.Control
                   type="datetime-local"
                   className="mb-3"
-                  onChange={(e) => setQuiz({ ...quiz, availableFrom: e.target.value })}
+                  value={quiz.availableDate.toISOString().slice(0, 16)}
+                  onChange={(e) => setQuiz({ ...quiz, availableDate: new Date(e.target.value) })}
                 />
                 <Form.Control
                   type="datetime-local"
                   className="mb-3"
-                  onChange={(e) => setQuiz({ ...quiz, availableUntil: e.target.value })}
+                  value={quiz.untilDate.toISOString().slice(0, 16)}
+                  onChange={(e) => setQuiz({ ...quiz, untilDate: new Date(e.target.value) })}
                 />
                 <Form.Label>Due Date</Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  onChange={(e) => setQuiz({ ...quiz, dueDate: e.target.value })}
+                  value={quiz.dueDate.toISOString().slice(0, 16)}
+                  onChange={(e) => setQuiz({ ...quiz, dueDate: new Date(e.target.value) })}
                 />
               </Card.Body>
             </Card>

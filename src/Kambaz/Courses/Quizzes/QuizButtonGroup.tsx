@@ -1,15 +1,15 @@
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../../GreenCheckmark";
 import { FaTrash } from "react-icons/fa";
-import { deleteAssignment } from "./reducer";
+import { deleteQuiz } from "./reducer";
 import { useDispatch } from "react-redux";
 import * as client from "./client";
 
-const AssignmentControlButtonGroup = ({ assignmentID }: { assignmentID: string }) => {
+const QuizButtonGroup = ({ quizId }: { quizId: string }) => {
     const dispatch = useDispatch();
     const handleDelete = async () => {
-        await client.deleteAssignment(assignmentID);
-        dispatch(deleteAssignment(assignmentID));
+        await client.deleteQuiz(quizId);
+        dispatch(deleteQuiz(quizId));
     };
     return (
         <div className="float-end">
@@ -23,4 +23,4 @@ const AssignmentControlButtonGroup = ({ assignmentID }: { assignmentID: string }
     );
 }
 
-export default AssignmentControlButtonGroup
+export default QuizButtonGroup
