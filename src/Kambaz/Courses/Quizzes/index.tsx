@@ -71,9 +71,9 @@ export default function Quizzes() {
                                     className="border-1"
                                 >
                                     <div className="d-flex align-items-center py-2">
-                                        <RxRocket  className="me-2 fs-4 me-4 ms-2" />
+                                        <RxRocket className="me-2 fs-4 me-4 ms-2" />
                                         <div className="flex-grow-1">
-                                            <a href={`#/Kambaz/Courses/${cid}/Quizzes/${quiz._id}`}
+                                            <a href={`#/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Editor`}
                                                 className="wd-quiz-link fw-bold text-decoration-none text-dark" >
                                                 {quiz.title || "Untitled Quiz"}
                                             </a>
