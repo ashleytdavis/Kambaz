@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as quizClient from "./client";
-import { Button, Form } from "react-bootstrap";
+import axios from "axios";
+import { Button, Form, Alert } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 export default function QuizTaker() {
   const { quizId } = useParams();
   const [quiz, setQuiz] = useState<any>(null);
   const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<any>({});
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const userId = currentUser?._id;  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,9 +31,25 @@ export default function QuizTaker() {
     setAnswers((prev: any) => ({ ...prev, [qid]: value }));
   };
 
-  const handleSubmit = () => {
-    console.log("Submitting:", answers);
-    // You could add logic to save the quiz attempt here
+  const handleSubmit = async () => {
+    try {
+      const formattedAnswers = Object.entries(answers).map(
+        ([questionId, answer]) => ({
+          questionId,
+          answer,
+        })
+      );
+
+      const attempt = await quizClient.submitQuizAttempt(quizId!, userId, formattedAnswers);
+      console.log("Answers before submit:", answers);
+      console.log("Formatted:", formattedAnswers);
+
+      setResult(attempt);
+      setError(null);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || "Submission failed.");
+    }
   };
 
   if (!quiz) return <div>Loading...</div>;
@@ -35,18 +58,30 @@ export default function QuizTaker() {
     <div className="container mt-4">
       <h2>{quiz?.title || "Quiz"}</h2>
 
+      {error && <Alert variant="danger">{error}</Alert>}
+      {result && (
+        <Alert variant="success">
+          <strong>Quiz submitted!</strong> You scored {result.score} points.
+        </Alert>
+      )}
+
       {questions.length === 0 ? (
         <p className="text-muted">This quiz has no questions.</p>
       ) : (
-        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
           {questions.map((question: any, index: number) => (
             <div key={question._id} className="mb-4">
               <label className="fw-bold d-block mb-2">
                 {index + 1}. {question.question_text} ({question.points} pts)
               </label>
 
-              {question.question_type === "Multiple Choice" && question.options && (
-                question.options.map((option: string, i: number) => (
+              {question.question_type === "Multiple Choice" &&
+                question.options?.map((option: string, i: number) => (
                   <Form.Check
                     key={i}
                     type="radio"
@@ -56,10 +91,9 @@ export default function QuizTaker() {
                     checked={answers[question._id] === option}
                     onChange={() => handleAnswerChange(question._id, option)}
                   />
-                ))
-              )}
+                ))}
 
-              {question.question_type === "True or False" && (
+              {question.question_type === "True or False" &&
                 ["True", "False"].map((option) => (
                   <Form.Check
                     key={option}
@@ -70,8 +104,7 @@ export default function QuizTaker() {
                     checked={answers[question._id] === option}
                     onChange={() => handleAnswerChange(question._id, option)}
                   />
-                ))
-              )}
+                ))}
 
               {question.question_type === "Fill In The Blank" && (
                 <Form.Control

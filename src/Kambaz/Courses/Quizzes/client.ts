@@ -2,6 +2,7 @@ import axios from "axios";
 const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
 const QUIZZES_API = `${REMOTE_SERVER}/api/quizzes`;
 const QUESTIONS_API = `${REMOTE_SERVER}/api/questions`;
+const ATTEMPTS_API = `${REMOTE_SERVER}/api/quiz-attempts`;
 const axiosWithCredentials = axios.create({ withCredentials: true });
 
 export const getQuizById = async (quizId: string) => {
@@ -71,4 +72,27 @@ export const deleteQuestion = async (questionId: string) => {
     `${QUESTIONS_API}/${questionId}`
   );
   return response.data;
+};
+
+export const submitQuizAttempt = async (
+  quizId: string,
+  userId: string,
+  answers: any[]
+) => {
+  const { data } = await axiosWithCredentials.post(ATTEMPTS_API, {
+    quizId,
+    userId,
+    answers,
+  });
+  return data;
+};
+
+export const getLatestQuizAttempt = async (
+  quizId: string,
+  userId: string
+) => {
+  const { data } = await axiosWithCredentials.get(
+    `${ATTEMPTS_API}/${quizId}/${userId}`
+  );
+  return data;
 };
