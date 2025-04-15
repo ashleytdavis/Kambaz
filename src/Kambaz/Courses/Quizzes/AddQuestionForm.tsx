@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 type AddQuestionFormProps = {
     onSubmit: (questions: Question[]) => void;
     quiz_id: string;
-};
+  };
 
 type Question = {
     _id: string;
@@ -45,8 +45,7 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
     };
 
     const handleRemoveQuestion = (index: number) => {
-        const updatedQuestions = questions.filter((_, i) => i !== index);
-        setQuestions(updatedQuestions);
+        setQuestions(questions.filter((_, i) => i !== index));
     };
 
     const handleQuestionChange = (index: number, updatedQuestion: Question) => {
@@ -77,15 +76,15 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
         e.preventDefault();
         onSubmit(questions);
         setQuestions([
-            {
-                _id: uuidv4(),
-                quiz_id: quiz_id,
-                question_text: "",
-                question_type: "True or False",
-                options: [],
-                correct_answer: "",
-                points: 1,
-            },
+          {
+            _id: uuidv4(),
+            quiz_id,
+            question_text: "",
+            question_type: "True or False",
+            options: [],
+            correct_answer: "",
+            points: 1,
+          },
         ]);
     };
 
