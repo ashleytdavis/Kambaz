@@ -9,6 +9,7 @@ import AddQuestionForm from "./AddQuestionForm";
 export default function QuizEditor() {
   const { cid, qid } = useParams();
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState("details");
 
   const [newQuiz, setNewQuiz] = useState<any | null>(null);
 
@@ -34,12 +35,24 @@ export default function QuizEditor() {
   };
 
   const handleAddQuestion = async (newQuestion: any) => {
-    const savedQuestion = await quizClient.saveQuestion(newQuestion, newQuiz._id);
-    setNewQuiz((prevQuiz: any) => ({
-      ...prevQuiz,
-      questions: [...prevQuiz.questions, savedQuestion._id],
-    }));
+    try {
+      const savedQuestion = await quizClient.saveQuestion(newQuestion, newQuiz._id);
+      setNewQuiz((prevQuiz: any) => ({
+        ...prevQuiz,
+        questions: [...prevQuiz.questions, savedQuestion._id],
+      }));
+    } catch (err) {
+      console.error("Error saving question:", err);
+    }
   };
+  
+
+  const formatDateTimeLocal = (date: Date | string | null) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };  
 
 
   if (!newQuiz) {
@@ -49,8 +62,8 @@ export default function QuizEditor() {
   return (
     <Container className="mt-4">
       <Tabs
-        activeKey="details"
-        onSelect={(tab) => console.log(tab)}
+        activeKey={activeTab}
+        onSelect={(tab) => setActiveTab(tab || "details")}
         className="mb-4"
       >
         <Tab eventKey="details" title="Details" tabClassName="text-danger">
@@ -200,21 +213,20 @@ export default function QuizEditor() {
                 <Form.Label>Availability</Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  value={newQuiz.availableDate}
+                  value={formatDateTimeLocal(newQuiz.availableDate)}
                   className="mb-3"
-                  onChange={(e) => setNewQuiz({ ...newQuiz, availableDate: new Date(e.target.value) })}
+                  onChange={(e) => setNewQuiz({ ...newQuiz, availableDate: e.target.value })}
                 />
                 <Form.Control
                   type="datetime-local"
-                  value={newQuiz.untilDate}
+                  value={formatDateTimeLocal(newQuiz.untilDate)}
                   className="mb-3"
-                  onChange={(e) => setNewQuiz({ ...newQuiz, untilDate: new Date(e.target.value) })}
+                  onChange={(e) => setNewQuiz({ ...newQuiz, untilDate: e.target.value })}
                 />
-                <Form.Label>Due Date</Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  value={newQuiz.dueDate}
-                  onChange={(e) => setNewQuiz({ ...newQuiz, dueDate: new Date(e.target.value) })}
+                  value={formatDateTimeLocal(newQuiz.dueDate)}
+                  onChange={(e) => setNewQuiz({ ...newQuiz, dueDate: e.target.value })}
                 />
               </Card.Body>
             </Card>
@@ -224,7 +236,7 @@ export default function QuizEditor() {
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
           <Card className="p-4 shadow-sm border-0">
             <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
-            <AddQuestionForm onSubmit={(newQuestion) => handleAddQuestion(newQuestion)} quiz_id={newQuiz._id} />
+            <AddQuestionForm onSubmit={handleAddQuestion} quiz_id={newQuiz._id} />
             <ul>
               {newQuiz.questions.map((questionId: any) => (
                 <li key={questionId}>

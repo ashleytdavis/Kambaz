@@ -10,6 +10,7 @@ import { setQuizzes } from "./reducer.ts";
 import { useEffect } from "react";
 import QuizButtonGroup from "./QuizButtonGroup.tsx";
 import { RxRocket } from "react-icons/rx";
+import StudentContent from "../../StudentContent.ts";
 
 export default function Quizzes() {
     const { cid } = useParams();
@@ -73,10 +74,17 @@ export default function Quizzes() {
                                     <div className="d-flex align-items-center py-2">
                                         <RxRocket className="me-2 fs-4 me-4 ms-2" />
                                         <div className="flex-grow-1">
+                                            <FacultyContent>
                                             <a href={`#/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Editor`}
                                                 className="wd-quiz-link fw-bold text-decoration-none text-dark" >
                                                 {quiz.title || "Untitled Quiz"}
                                             </a>
+                                            </FacultyContent>
+                                            <StudentContent>
+                                                <span className="fw-bold">
+                                                    {quiz.title || "Untitled Quiz"}
+                                                </span>
+                                            </StudentContent>
                                             <br />
                                             <small>
                                                 <span className="text-secondary">Not available until {quiz.date} at 12:00am</span>

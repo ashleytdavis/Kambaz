@@ -1,5 +1,5 @@
 import { Form, Button, Container, Row, Col, Card, Tabs, Tab } from "react-bootstrap";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { addQuiz } from "./reducer";
@@ -23,6 +23,7 @@ type Question = {
 export default function QuizBuilder() {
   const { cid } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [wordCount, setWordCount] = useState(0);
   const [activeTab, setActiveTab] = useState("details");
   const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
@@ -59,6 +60,7 @@ export default function QuizBuilder() {
       questions: savedQuestions.map((question) => question._id),
     });
     dispatch(addQuiz(createdQuiz));
+    navigate(`/Kambaz/Courses/${cid}/Quizzes`); 
   };
 
   const handleAddQuestion = async (newQuestion: Question) => {
