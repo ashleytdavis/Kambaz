@@ -17,14 +17,12 @@ export default function QuizEditor() {
   useEffect(() => {
     async function fetchQuizAndQuestions() {
       try {
-        // 1. Fetch quiz data
         if (!qid) {
           throw new Error("Quiz ID is undefined");
         }
         const quizData = await quizClient.getQuizById(qid);
         setNewQuiz(quizData);
 
-        // 2. Fetch questions using dedicated endpoint
         if (quizData._id) {
           const questions = await quizClient.getQuestionsForQuiz(quizData._id);
           setNewQuizQuestions(questions);

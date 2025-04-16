@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Card, Row, Col, Spinner } from "react-bootstrap";
-
-// Example API client to fetch quiz by id
 import * as quizClient from "../Quizzes/client"
 
 function formatBoolean(value: boolean | undefined, defaultValue: boolean) {
@@ -35,7 +33,6 @@ function formatDate(dateStr?: string | Date | null) {
 
 export default function QuizDetails() {
     const { quidId } = useParams();
-    const navigate = useNavigate();
     const [quiz, setQuiz] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
