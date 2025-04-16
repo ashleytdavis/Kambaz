@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button, Alert, Card } from "react-bootstrap";
 import * as quizClient from "./client";
 import { useSelector } from "react-redux";
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 
 export default function QuizAttemptOverview() {
   const { quizId, cid } = useParams();
@@ -118,9 +119,16 @@ export default function QuizAttemptOverview() {
                 </p>
                 <p>
                     <strong>Your answer:</strong>{" "}
+                    <span className="ms-2">
+                        {isCorrect ? (
+                            <AiOutlineCheckCircle className="text-success" size={20} />) : (
+                            <AiOutlineCloseCircle className="text-danger" size={20} />
+                        )}
+                    </span>
                     <span className={isCorrect ? "text-success" : "text-danger"}>
                     {studentAnswer || "No answer"}
                     </span>
+                    
                 </p>
                 {!isCorrect && (
                     <p>
