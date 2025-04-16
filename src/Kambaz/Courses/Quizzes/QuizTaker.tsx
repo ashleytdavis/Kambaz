@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import * as quizClient from "./client";
 import axios from "axios";
 import { Button, Form, Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 export default function QuizTaker() {
-  const { quizId } = useParams();
+  const navigate = useNavigate();
+  const { cid, quizId } = useParams();
   const [quiz, setQuiz] = useState<any>(null);
   const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<any>({});
@@ -41,11 +42,10 @@ export default function QuizTaker() {
       );
 
       const attempt = await quizClient.submitQuizAttempt(quizId!, userId, formattedAnswers);
-      console.log("Answers before submit:", answers);
-      console.log("Formatted:", formattedAnswers);
 
       setResult(attempt);
       setError(null);
+      navigate(`/Kambaz/Courses/${cid}/Quizzes/${quizId}/Overview`);
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Submission failed.");

@@ -88,7 +88,7 @@ export default function Quizzes() {
                                             </FacultyContent>
                                             <StudentContent>
                                                 <Link
-                                                    to={`/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Take`}
+                                                    to={`/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Overview`}
                                                     className="wd-quiz-link fw-bold text-decoration-none text-dark">
                                                     {quiz.title || "Untitled Quiz"}
                                                 </Link>
