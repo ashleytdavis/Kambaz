@@ -4,6 +4,7 @@ import { FaTrash } from "react-icons/fa";
 import { deleteQuiz } from "./reducer";
 import { useDispatch } from "react-redux";
 import * as client from "./client";
+import FacultyContent from "../../FacultyContent";
 
 const QuizButtonGroup = ({ quizId }: { quizId: string }) => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const QuizButtonGroup = ({ quizId }: { quizId: string }) => {
             <GreenCheckmark />
             <button className="btn me-2"
                 onClick={handleDelete}>
-                <FaTrash className="text-danger" />
+                    <FacultyContent><FaTrash className="text-danger" /></FacultyContent>
             </button>
             <IoEllipsisVertical className="fs-4" />
         </div>
