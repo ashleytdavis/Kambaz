@@ -31,7 +31,7 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
             _id: uuidv4(),
             quiz_id: quiz._id,
             question_text: "",
-            question_type: "True or False",
+            question_type: "Multiple Choice",
             options: [],
             correct_answer: "",
             points: 1,
@@ -43,7 +43,7 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
             _id: uuidv4(),
             quiz_id: quiz._id,
             question_text: "",
-            question_type: "True or False",
+            question_type: "Multiple Choice",
             options: [],
             correct_answer: "",
             points: 1,
@@ -144,11 +144,23 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
                                 <Form.Label>Question Type</Form.Label>
                                 <Form.Select
                                     value={question.question_type}
-                                    onChange={(e) => handleQuestionChange(index, {
-                                        ...question,
-                                        question_type: e.target.value as Question["question_type"],
-                                        options: [],
-                                    })}
+                                    onChange={(e) => {
+                                        const newType = e.target.value as Question["question_type"];
+                                        let newOptions: any[] = [];
+                                        let newCorrectAnswer = "";
+
+                                        if (newType === "True or False") {
+                                            newOptions = ["True", "False"];
+                                            newCorrectAnswer = "True";
+                                        }
+
+                                        handleQuestionChange(index, {
+                                            ...question,
+                                            question_type: newType,
+                                            options: newOptions,
+                                            correct_answer: newCorrectAnswer
+                                        });
+                                    }}
                                     required
                                 >
                                     <option value="True or False">True or False</option>
@@ -200,13 +212,57 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Correct Answer</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter correct answer"
-                                    value={question.correct_answer as string}
-                                    onChange={(e) => handleQuestionChange(index, { ...question, correct_answer: e.target.value })}
-                                    required
-                                />
+                                {question.question_type === "True or False" ? (
+                                    <div>
+                                        <Form.Check
+                                            type="radio"
+                                            label="True"
+                                            name={`correct-${index}`}
+                                            checked={question.correct_answer === "True"}
+                                            onChange={() => handleQuestionChange(index, {
+                                                ...question,
+                                                correct_answer: "True"
+                                            })}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="False"
+                                            name={`correct-${index}`}
+                                            checked={question.correct_answer === "False"}
+                                            onChange={() => handleQuestionChange(index, {
+                                                ...question,
+                                                correct_answer: "False"
+                                            })}
+                                        />
+                                    </div>
+                                ) : question.question_type === "Multiple Choice" ? (
+                                    <Form.Select
+                                        value={String(question.correct_answer)}
+                                        onChange={(e) => handleQuestionChange(index, {
+                                            ...question,
+                                            correct_answer: e.target.value
+                                        })}
+                                        required
+                                    >
+                                        <option value="">Select correct answer</option>
+                                        {question.options.map((option, i) => (
+                                            <option key={i} value={option}>
+                                                {option}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                ) : (
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter correct answer"
+                                        value={String(question.correct_answer)}
+                                        onChange={(e) => handleQuestionChange(index, {
+                                            ...question,
+                                            correct_answer: e.target.value
+                                        })}
+                                        required
+                                    />
+                                )}
                             </Form.Group>
 
                             <Form.Group className="mb-3">
