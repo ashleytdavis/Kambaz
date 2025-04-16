@@ -62,16 +62,6 @@ export default function QuizBuilder() {
     setWordCount(quiz.description.split(" ").length - 1)
   }, [quiz.description])
 
-  useEffect(() => {
-    let newPoints = 0;
-    for (const questionId of quiz.questions) {
-      quizClient.getQuestion(questionId).then((question: any) => {
-        newPoints += question.points;
-        setQuiz((prevQuiz) => ({ ...prevQuiz, points: newPoints }));
-      });
-    }
-  }, [quiz.questions]);
-
   return (
     <Container className="mt-4">
       <div className="d-flex justify-content-end align-items-center gap-3 fw-bold fs-5">
@@ -259,7 +249,10 @@ export default function QuizBuilder() {
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
           <Card className="p-4 shadow-sm border-0">
             <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
-            <AddQuestionForm onSubmit={(questions) => questions.forEach(handleAddQuestion)} quiz={quiz} />
+            <AddQuestionForm
+              onSubmit={(questions) => questions.forEach(handleAddQuestion)}
+              quiz={quiz}
+              setQuiz={setQuiz} />
           </Card>
         </Tab>
       </Tabs>

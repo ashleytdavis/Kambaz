@@ -14,7 +14,7 @@ export default function QuizTaker() {
   const [error, setError] = useState<string | null>(null);
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const userId = currentUser?._id;  
+  const userId = currentUser?._id;
 
   useEffect(() => {
     const fetchData = async () => {

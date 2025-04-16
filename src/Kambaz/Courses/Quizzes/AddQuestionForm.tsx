@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, Row, Col, Card } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -11,6 +11,7 @@ import * as quizClient from "./client";
 type AddQuestionFormProps = {
     onSubmit: (questions: Question[]) => void;
     quiz: any;
+    setQuiz: React.Dispatch<React.SetStateAction<any>>;
 };
 
 type Question = {
@@ -23,7 +24,7 @@ type Question = {
     points: number;
 };
 
-export default function AddQuestionForm({ onSubmit, quiz }: AddQuestionFormProps) {
+export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestionFormProps) {
     const { cid } = useParams();
     const [questions, setQuestions] = useState<Question[]>([
         {
@@ -115,6 +116,15 @@ export default function AddQuestionForm({ onSubmit, quiz }: AddQuestionFormProps
         } catch (error) {
             console.error("Error saving quiz and questions:", error);
         }
+    };
+
+    useEffect(() => {
+        const totalPoints = calculateTotalPoints();
+        setQuiz((prevQuiz: any) => ({ ...prevQuiz, points: totalPoints }));
+    }, [questions]);
+
+    const calculateTotalPoints = () => {
+        return questions.reduce((total, question) => total + question.points, 0);
     };
 
     return (
