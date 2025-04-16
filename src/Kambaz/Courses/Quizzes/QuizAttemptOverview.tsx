@@ -100,6 +100,38 @@ export default function QuizAttemptOverview() {
       ) : (
         <Alert variant="info">You haven't taken this quiz yet.</Alert>
       )}
+      {lastAttempt && quiz?.showCorrectAnswers && (
+        <div className="mt-4">
+            <h4>Previous Attempt Review</h4>
+            {questions.map((question: any, index: number) => {
+            const studentAnswerObj = lastAttempt?.answers?.find(
+                (a: any) => a.questionId === question._id
+            );
+
+            const studentAnswer = studentAnswerObj?.answer;
+            const isCorrect = studentAnswer === question.correct_answer;
+
+            return (
+                <div key={question._id} className="mb-3 p-3 border rounded">
+                <p className="fw-bold mb-1">
+                    {index + 1}. {question.question_text}
+                </p>
+                <p>
+                    <strong>Your answer:</strong>{" "}
+                    <span className={isCorrect ? "text-success" : "text-danger"}>
+                    {studentAnswer || "No answer"}
+                    </span>
+                </p>
+                {!isCorrect && (
+                    <p>
+                    <strong>Correct answer:</strong> {question.correct_answer}</p>
+                )}
+                </div>
+            );
+            })}
+        </div>
+        )}
+
 
       <div className="d-flex justify-content-end">
         {canRetake ? (
