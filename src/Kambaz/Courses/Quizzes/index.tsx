@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import QuizButtonGroup from "./QuizButtonGroup.tsx";
 import { RxRocket } from "react-icons/rx";
 import StudentContent from "../../StudentContent.ts";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function Quizzes() {
     const { cid } = useParams();
@@ -24,7 +25,7 @@ export default function Quizzes() {
         const availableDate = new Date(quiz.availableDate);
         const untilDate = new Date(quiz.untilDate);
         return now >= availableDate && now <= untilDate;
-      };      
+    };
     useEffect(() => {
         fetchQuizzes();
     }, []);
@@ -42,16 +43,15 @@ export default function Quizzes() {
                 </div>
                 <FacultyContent>
                     <div>
-                        <button className="btn btn-light me-2">
-                            <BsPlusLg className="me-1" />
-                            Group
-                        </button>
                         <Link to={`/Kambaz/Courses/${cid}/Quizzes/Builder`}>
                             <Button variant="danger">
                                 <BsPlusLg className="me-1" />
                                 Quiz
                             </Button>
                         </Link>
+                        <button className="btn btn-light me-2 ms-2">
+                            <BsThreeDotsVertical size={20} />
+                        </button>
                     </div>
                 </FacultyContent>
             </div>
@@ -69,11 +69,11 @@ export default function Quizzes() {
                         </div>
                     </div>
                     {quizzes
-                            .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz)).length === 0 && (
-                        <div className="text-center text-muted my-4">
-                            No quizzes yet. Click <strong>+ Quiz</strong> to get started.
-                        </div>
-                    )}
+                        .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz)).length === 0 && (
+                            <div className="text-center text-muted my-4">
+                                No quizzes yet. Click <strong>+ Quiz</strong> to get started.
+                            </div>
+                        )}
 
 
                     <ListGroup className="rounded-0">
@@ -88,10 +88,10 @@ export default function Quizzes() {
                                         <RxRocket className="me-2 fs-4 me-4 ms-2" />
                                         <div className="flex-grow-1">
                                             <FacultyContent>
-                                            <a href={`#/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Editor`}
-                                                className="wd-quiz-link fw-bold text-decoration-none text-dark" >
-                                                {quiz.title || "Untitled Quiz"}
-                                            </a>
+                                                <p
+                                                    className="wd-quiz-link fw-bold text-dark mb-0" >
+                                                    {quiz.title || "Untitled Quiz"}
+                                                </p>
                                             </FacultyContent>
                                             <StudentContent>
                                                 <Link
@@ -100,14 +100,13 @@ export default function Quizzes() {
                                                     {quiz.title || "Untitled Quiz"}
                                                 </Link>
                                             </StudentContent>
-                                            <br />
                                             <small>
                                                 <span className="text-secondary">Not available until {quiz.date} at 12:00am</span>
                                                 <br />
                                                 <span className="text-secondary">Due {quiz.dueDate} at 11:59pm | {quiz.points} pts</span>
                                             </small>
                                         </div>
-                                        <QuizButtonGroup quizId={quiz._id} />
+                                        {cid && <QuizButtonGroup quizId={quiz._id} courseId={cid} />}
                                     </div>
                                 </ListGroup.Item>
                             ))}
