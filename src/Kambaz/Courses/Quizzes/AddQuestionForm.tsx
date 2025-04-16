@@ -21,7 +21,7 @@ type Question = {
     question_text: string;
     question_type: "True or False" | "Multiple Choice" | "Fill In The Blank";
     options: string[];
-    correct_answer: string | boolean | string[];
+    correct_answer: string[] | string | boolean;
     points: number;
 };
 
@@ -82,6 +82,32 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuesti
         setQuestions(updatedQuestions);
     };
 
+    const handleAnswerChange = (questionIndex: number, answerIndex: number, value: string) => {
+        const updatedQuestions = [...questions];
+        const updatedAnswers = [...(updatedQuestions[questionIndex].correct_answer as string[])];
+        updatedAnswers[answerIndex] = value;
+        updatedQuestions[questionIndex].correct_answer = updatedAnswers;
+        setQuestions(updatedQuestions);
+    };
+
+    const handleAddAnswer = (questionIndex: number) => {
+        const updatedQuestions = [...questions];
+        const updatedAnswers = Array.isArray(updatedQuestions[questionIndex].correct_answer)
+            ? [...updatedQuestions[questionIndex].correct_answer, ""]
+            : [""];
+        updatedQuestions[questionIndex].correct_answer = updatedAnswers;
+        setQuestions(updatedQuestions);
+    };
+
+    const handleRemoveAnswer = (questionIndex: number, answerIndex: number) => {
+        const updatedQuestions = [...questions];
+        const updatedAnswers = (updatedQuestions[questionIndex].correct_answer as string[]).filter(
+            (_, i) => i !== answerIndex
+        );
+        updatedQuestions[questionIndex].correct_answer = updatedAnswers;
+        setQuestions(updatedQuestions);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit(questions);
@@ -92,7 +118,7 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuesti
                 question_text: "",
                 question_type: "True or False",
                 options: [],
-                correct_answer: "",
+                correct_answer: [""],
                 points: 1,
             },
         ]);
@@ -262,16 +288,60 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuesti
                                         ))}
                                     </Form.Select>
                                 ) : (
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter correct answer"
-                                        value={String(question.correct_answer)}
-                                        onChange={(e) => handleQuestionChange(index, {
-                                            ...question,
-                                            correct_answer: e.target.value
-                                        })}
-                                        required
-                                    />
+                                    <>
+                                        {Array.isArray(question.correct_answer) && question.correct_answer.length > 0
+                                            ? question.correct_answer.map((ans, ansIdx) => (
+                                                <Row key={ansIdx} className="mb-2">
+                                                    <Col>
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder={`Correct answer ${ansIdx + 1}`}
+                                                            value={ans}
+                                                            onChange={e => {
+                                                                const updatedAnswers = [...(question.correct_answer as string[])];
+                                                                updatedAnswers[ansIdx] = e.target.value;
+                                                                handleQuestionChange(index, { ...question, correct_answer: updatedAnswers });
+                                                            }}
+                                                            required
+                                                        />
+                                                    </Col>
+                                                    <Col xs="auto">
+                                                        <Button
+                                                            variant="outline-danger"
+                                                            onClick={() => {
+                                                                const updatedAnswers = (question.correct_answer as string[]).filter((_, i) => i !== ansIdx);
+                                                                handleQuestionChange(index, { ...question, correct_answer: updatedAnswers });
+                                                            }}
+                                                            disabled={Array.isArray(question.correct_answer) && question.correct_answer.length === 1}
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            ))
+                                            : (
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Correct answer"
+                                                    value={typeof question.correct_answer === "string" ? question.correct_answer : ""}
+                                                    onChange={e => handleQuestionChange(index, { ...question, correct_answer: [e.target.value] })}
+                                                    required
+                                                />
+                                            )
+                                        }
+                                        <Button
+                                            variant="outline-secondary"
+                                            onClick={() => {
+                                                const updatedAnswers = Array.isArray(question.correct_answer)
+                                                    ? [...question.correct_answer, ""]
+                                                    : [question.correct_answer as string, ""];
+                                                handleQuestionChange(index, { ...question, correct_answer: updatedAnswers });
+                                            }}
+                                            className="mt-2"
+                                        >
+                                            Add Answer
+                                        </Button>
+                                    </>
                                 )}
                             </Form.Group>
 
