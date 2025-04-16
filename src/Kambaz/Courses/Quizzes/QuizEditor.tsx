@@ -274,7 +274,7 @@ export default function QuizEditor() {
         <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
           <Button variant="light">Cancel</Button>
         </Link>
-        <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+        <Link to={`/Kambaz/Courses/${cid}/Quizzes/${qid}/Details`}>
           <Button variant="danger" onClick={handleUpdateQuiz}>Save</Button>
         </Link>
       </div>
