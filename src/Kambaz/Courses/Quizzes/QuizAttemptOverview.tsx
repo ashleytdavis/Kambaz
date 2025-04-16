@@ -87,19 +87,19 @@ export default function QuizAttemptOverview() {
   return (
     <div className="container mt-4">
       <h2>{quiz.title || "Quiz"}</h2>
-
-      {lastAttempt ? (
-        <Card className="mb-3">
+      <Card className="mb-3">
           <Card.Body>
-            <Card.Title>Last Attempt</Card.Title>
+            <Card.Title>Quiz Details</Card.Title>
+            <p><strong>Due Date:</strong> {new Date(quiz.dueDate).toLocaleString()}</p>
+            <p><strong>Points:</strong> {quiz.points}</p>
+            <p><strong>Number of Questions:</strong> {quiz.questions.length}</p>
+            {lastAttempt ? (
             <p><strong>Score:</strong> {lastAttempt.score} / {quiz.points}</p>
-            <p><strong>Submitted:</strong> {new Date(lastAttempt.submittedAt).toLocaleString()}</p>
-            <p><strong>Attempt #:</strong> {lastAttempt.numAttempt}</p>
-          </Card.Body>
-        </Card>
       ) : (
         <Alert variant="info">You haven't taken this quiz yet.</Alert>
       )}
+          </Card.Body>
+        </Card>
       {lastAttempt && quiz?.showCorrectAnswers && (
         <div className="mt-4">
             <h4>Previous Attempt Review</h4>
