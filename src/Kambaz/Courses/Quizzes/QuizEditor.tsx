@@ -45,14 +45,13 @@ export default function QuizEditor() {
       console.error("Error saving question:", err);
     }
   };
-  
 
   const formatDateTimeLocal = (date: Date | string | null) => {
     if (!date) return "";
     const d = new Date(date);
     const pad = (n: number) => n.toString().padStart(2, "0");
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  };  
+  };
 
 
   if (!newQuiz) {
@@ -209,6 +208,10 @@ export default function QuizEditor() {
             </Form.Group>
 
             <Card className="mb-4">
+              {newQuiz.dueDate <= newQuiz.availableDate
+                || newQuiz.untilDate <= newQuiz.availableDate
+                || newQuiz.untilDate <= newQuiz.dueDate
+                ? <p>Invalid date range</p> : null}
               <Card.Body>
                 <Form.Label>Availability</Form.Label>
                 <Form.Control
@@ -236,7 +239,10 @@ export default function QuizEditor() {
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
           <Card className="p-4 shadow-sm border-0">
             <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
-            <AddQuestionForm onSubmit={handleAddQuestion} quiz_id={newQuiz._id} />
+            <AddQuestionForm
+              onSubmit={handleAddQuestion}
+              quiz={newQuiz._id}
+              setQuiz={setNewQuiz} />
             <ul>
               {newQuiz.questions.map((questionId: any) => (
                 <li key={questionId}>

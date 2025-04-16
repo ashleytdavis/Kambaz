@@ -1,8 +1,6 @@
 import { Form, Button, Container, Row, Col, Card, Tabs, Tab } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
+import { Link, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { addQuiz } from "./reducer";
 import * as quizClient from "./client";
 import { FaRegKeyboard } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa6";
@@ -22,11 +20,10 @@ type Question = {
 
 export default function QuizBuilder() {
   const { cid } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [wordCount, setWordCount] = useState(0);
   const [activeTab, setActiveTab] = useState("details");
   const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
+
 
   const [quiz, setQuiz] = useState({
     _id: uuidv4(),
@@ -52,16 +49,6 @@ export default function QuizBuilder() {
     points: 0,
   });
 
-  const handleCreateQuiz = async () => {
-    const savedQuestions = await Promise.all(quiz.questions.map((questionId) => quizClient.getQuestion(questionId)));
-    const createdQuiz = await quizClient.createQuiz({
-      ...quiz,
-      courseId: cid,
-      questions: savedQuestions.map((question) => question._id),
-    });
-    dispatch(addQuiz(createdQuiz));
-    navigate(`/Kambaz/Courses/${cid}/Quizzes`); 
-  };
 
   const handleAddQuestion = async (newQuestion: Question) => {
     const savedQuestion = await quizClient.saveQuestion(newQuestion, quiz._id);
@@ -74,16 +61,6 @@ export default function QuizBuilder() {
   useEffect(() => {
     setWordCount(quiz.description.split(" ").length - 1)
   }, [quiz.description])
-
-  useEffect(() => {
-    let newPoints = 0;
-    for (const questionId of quiz.questions) {
-      quizClient.getQuestion(questionId).then((question: any) => {
-        newPoints += question.points;
-        setQuiz((prevQuiz) => ({ ...prevQuiz, points: newPoints }));
-      });
-    }
-  }, [quiz.questions]);
 
   return (
     <Container className="mt-4">
@@ -237,14 +214,21 @@ export default function QuizBuilder() {
             </Row>
 
             <Card className="mb-4">
+              {quiz.dueDate <= quiz.availableDate
+                || quiz.untilDate <= quiz.availableDate
+                || quiz.untilDate <= quiz.dueDate
+                ? <p className="text-danger">Invalid date range</p> : null}
               <Card.Body>
                 <Form.Label>Availability</Form.Label>
+                <hr />
+                <Form.Label>Available From</Form.Label>
                 <Form.Control
                   type="datetime-local"
                   className="mb-3"
                   value={quiz.availableDate.toISOString().slice(0, 16)}
                   onChange={(e) => setQuiz({ ...quiz, availableDate: new Date(e.target.value) })}
                 />
+                <Form.Label>Until</Form.Label>
                 <Form.Control
                   type="datetime-local"
                   className="mb-3"
@@ -265,7 +249,10 @@ export default function QuizBuilder() {
         <Tab eventKey="questions" title="Questions" tabClassName="text-danger">
           <Card className="p-4 shadow-sm border-0">
             <h5 className="fw-bold text-danger mb-4">Add Questions</h5>
-            <AddQuestionForm onSubmit={(questions) => questions.forEach(handleAddQuestion)} quiz_id={quiz._id} />
+            <AddQuestionForm
+              onSubmit={(questions) => questions.forEach(handleAddQuestion)}
+              quiz={quiz}
+              setQuiz={setQuiz} />
           </Card>
         </Tab>
       </Tabs>
@@ -273,9 +260,6 @@ export default function QuizBuilder() {
       <div className="d-flex justify-content-end gap-2 mt-4">
         <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
           <Button variant="light">Cancel</Button>
-        </Link>
-        <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
-          <Button variant="danger" onClick={handleCreateQuiz}>Save</Button>
         </Link>
       </div>
     </Container>

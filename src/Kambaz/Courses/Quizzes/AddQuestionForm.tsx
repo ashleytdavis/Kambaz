@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, Row, Col, Card } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+
+import * as quizClient from "./client";
+
 
 type AddQuestionFormProps = {
     onSubmit: (questions: Question[]) => void;
-    quiz_id: string;
-  };
+    quiz: any;
+    setQuiz: React.Dispatch<React.SetStateAction<any>>;
+};
 
 type Question = {
     _id: string;
@@ -19,11 +24,12 @@ type Question = {
     points: number;
 };
 
-export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormProps) {
+export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestionFormProps) {
+    const { cid } = useParams();
     const [questions, setQuestions] = useState<Question[]>([
         {
             _id: uuidv4(),
-            quiz_id: quiz_id,
+            quiz_id: quiz._id,
             question_text: "",
             question_type: "True or False",
             options: [],
@@ -35,7 +41,7 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
     const handleAddQuestion = () => {
         setQuestions([...questions, {
             _id: uuidv4(),
-            quiz_id: quiz_id,
+            quiz_id: quiz._id,
             question_text: "",
             question_type: "True or False",
             options: [],
@@ -76,16 +82,49 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
         e.preventDefault();
         onSubmit(questions);
         setQuestions([
-          {
-            _id: uuidv4(),
-            quiz_id,
-            question_text: "",
-            question_type: "True or False",
-            options: [],
-            correct_answer: "",
-            points: 1,
-          },
+            {
+                _id: uuidv4(),
+                quiz_id: quiz._id,
+                question_text: "",
+                question_type: "True or False",
+                options: [],
+                correct_answer: "",
+                points: 1,
+            },
         ]);
+    };
+
+    const handleCreateQuiz = async () => {
+        try {
+            const savedQuiz = await quizClient.createQuiz(quiz);
+
+            const savedQuestions = await Promise.all(
+                questions.map(async (question) => {
+                    const savedQuestion = await quizClient.saveQuestion(question, savedQuiz._id);
+                    return savedQuestion;
+                })
+            );
+
+            const updatedQuiz = {
+                ...savedQuiz,
+                questions: savedQuestions.map((q) => q._id),
+            };
+
+            await quizClient.updateQuiz(updatedQuiz);
+
+            console.log("Quiz and questions saved successfully:", updatedQuiz);
+        } catch (error) {
+            console.error("Error saving quiz and questions:", error);
+        }
+    };
+
+    useEffect(() => {
+        const totalPoints = calculateTotalPoints();
+        setQuiz((prevQuiz: any) => ({ ...prevQuiz, points: totalPoints }));
+    }, [questions]);
+
+    const calculateTotalPoints = () => {
+        return questions.reduce((total, question) => total + question.points, 0);
     };
 
     return (
@@ -188,7 +227,9 @@ export default function AddQuestionForm({ onSubmit, quiz_id }: AddQuestionFormPr
                     <AiOutlinePlus />
                 </Button>
             </div>
-
+            <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+                <Button variant="danger" type="submit" onClick={handleCreateQuiz}>Save</Button>
+            </Link>
         </Form>
     );
 }
