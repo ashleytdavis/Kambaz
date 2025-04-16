@@ -62,6 +62,12 @@ export default function Quizzes() {
                             <IoEllipsisVertical className="fs-4" />
                         </div>
                     </div>
+                    {quizzes.length === 0 && (
+                        <div className="text-center text-muted my-4">
+                            No quizzes yet. Click <strong>+ Quiz</strong> to get started.
+                        </div>
+                    )}
+
 
                     <ListGroup className="rounded-0">
                         {quizzes
@@ -81,9 +87,11 @@ export default function Quizzes() {
                                             </a>
                                             </FacultyContent>
                                             <StudentContent>
-                                                <span className="fw-bold">
+                                                <Link
+                                                    to={`/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Take`}
+                                                    className="wd-quiz-link fw-bold text-decoration-none text-dark">
                                                     {quiz.title || "Untitled Quiz"}
-                                                </span>
+                                                </Link>
                                             </StudentContent>
                                             <br />
                                             <small>
