@@ -19,6 +19,12 @@ export default function Quizzes() {
         const quizzes = await quizClient.getQuizzesForCourse(cid as string);
         dispatch(setQuizzes(quizzes));
     };
+    const isQuizAvailable = (quiz: any) => {
+        const now = new Date();
+        const availableDate = new Date(quiz.availableDate);
+        const untilDate = new Date(quiz.untilDate);
+        return now >= availableDate && now <= untilDate;
+      };      
     useEffect(() => {
         fetchQuizzes();
     }, []);
@@ -62,7 +68,8 @@ export default function Quizzes() {
                             <IoEllipsisVertical className="fs-4" />
                         </div>
                     </div>
-                    {quizzes.length === 0 && (
+                    {quizzes
+                            .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz)).length === 0 && (
                         <div className="text-center text-muted my-4">
                             No quizzes yet. Click <strong>+ Quiz</strong> to get started.
                         </div>
@@ -71,7 +78,7 @@ export default function Quizzes() {
 
                     <ListGroup className="rounded-0">
                         {quizzes
-                            .filter((quiz: any) => quiz.courseId === cid)
+                            .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz))
                             .map((quiz: any) => (
                                 <ListGroup.Item
                                     key={quiz._id}
