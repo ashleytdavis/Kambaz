@@ -12,6 +12,7 @@ type AddQuestionFormProps = {
     onSubmit: (questions: Question[]) => void;
     quiz: any;
     setQuiz: React.Dispatch<React.SetStateAction<any>>;
+    initialQuestions?: Question[];
 };
 
 type Question = {
@@ -24,26 +25,29 @@ type Question = {
     points: number;
 };
 
-export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestionFormProps) {
+export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuestions = [] }: AddQuestionFormProps) {
     const { cid } = useParams();
-    const [questions, setQuestions] = useState<Question[]>([
-        {
-            _id: uuidv4(),
-            quiz_id: quiz._id,
-            question_text: "",
-            question_type: "True or False",
-            options: [],
-            correct_answer: "",
-            points: 1,
-        },
-    ]);
+    const [questions, setQuestions] = useState<Question[]>(() => {
+        if (initialQuestions.length > 0) return initialQuestions;
+        return [
+            {
+                _id: uuidv4(),
+                quiz_id: typeof quiz === "string" ? quiz : quiz._id,
+                question_text: "",
+                question_type: "Multiple Choice",
+                options: [],
+                correct_answer: "",
+                points: 1,
+            },
+        ];
+    });
 
     const handleAddQuestion = () => {
         setQuestions([...questions, {
             _id: uuidv4(),
             quiz_id: quiz._id,
             question_text: "",
-            question_type: "True or False",
+            question_type: "Multiple Choice",
             options: [],
             correct_answer: "",
             points: 1,
@@ -123,6 +127,12 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
         setQuiz((prevQuiz: any) => ({ ...prevQuiz, points: totalPoints }));
     }, [questions]);
 
+    useEffect(() => {
+        if (initialQuestions.length > 0) {
+            setQuestions(initialQuestions);
+        }
+    }, [initialQuestions]);
+
     const calculateTotalPoints = () => {
         return questions.reduce((total, question) => total + question.points, 0);
     };
@@ -144,11 +154,23 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
                                 <Form.Label>Question Type</Form.Label>
                                 <Form.Select
                                     value={question.question_type}
-                                    onChange={(e) => handleQuestionChange(index, {
-                                        ...question,
-                                        question_type: e.target.value as Question["question_type"],
-                                        options: [],
-                                    })}
+                                    onChange={(e) => {
+                                        const newType = e.target.value as Question["question_type"];
+                                        let newOptions: any[] = [];
+                                        let newCorrectAnswer = "";
+
+                                        if (newType === "True or False") {
+                                            newOptions = ["True", "False"];
+                                            newCorrectAnswer = "True";
+                                        }
+
+                                        handleQuestionChange(index, {
+                                            ...question,
+                                            question_type: newType,
+                                            options: newOptions,
+                                            correct_answer: newCorrectAnswer
+                                        });
+                                    }}
                                     required
                                 >
                                     <option value="True or False">True or False</option>
@@ -200,13 +222,57 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Correct Answer</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter correct answer"
-                                    value={question.correct_answer as string}
-                                    onChange={(e) => handleQuestionChange(index, { ...question, correct_answer: e.target.value })}
-                                    required
-                                />
+                                {question.question_type === "True or False" ? (
+                                    <div>
+                                        <Form.Check
+                                            type="radio"
+                                            label="True"
+                                            name={`correct-${index}`}
+                                            checked={question.correct_answer === "True"}
+                                            onChange={() => handleQuestionChange(index, {
+                                                ...question,
+                                                correct_answer: "True"
+                                            })}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="False"
+                                            name={`correct-${index}`}
+                                            checked={question.correct_answer === "False"}
+                                            onChange={() => handleQuestionChange(index, {
+                                                ...question,
+                                                correct_answer: "False"
+                                            })}
+                                        />
+                                    </div>
+                                ) : question.question_type === "Multiple Choice" ? (
+                                    <Form.Select
+                                        value={String(question.correct_answer)}
+                                        onChange={(e) => handleQuestionChange(index, {
+                                            ...question,
+                                            correct_answer: e.target.value
+                                        })}
+                                        required
+                                    >
+                                        <option value="">Select correct answer</option>
+                                        {question.options.map((option, i) => (
+                                            <option key={i} value={option}>
+                                                {option}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                ) : (
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter correct answer"
+                                        value={String(question.correct_answer)}
+                                        onChange={(e) => handleQuestionChange(index, {
+                                            ...question,
+                                            correct_answer: e.target.value
+                                        })}
+                                        required
+                                    />
+                                )}
                             </Form.Group>
 
                             <Form.Group className="mb-3">
