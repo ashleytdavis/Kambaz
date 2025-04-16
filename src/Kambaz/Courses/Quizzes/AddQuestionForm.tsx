@@ -12,6 +12,7 @@ type AddQuestionFormProps = {
     onSubmit: (questions: Question[]) => void;
     quiz: any;
     setQuiz: React.Dispatch<React.SetStateAction<any>>;
+    initialQuestions?: Question[];
 };
 
 type Question = {
@@ -24,19 +25,22 @@ type Question = {
     points: number;
 };
 
-export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestionFormProps) {
+export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuestions = [] }: AddQuestionFormProps) {
     const { cid } = useParams();
-    const [questions, setQuestions] = useState<Question[]>([
-        {
-            _id: uuidv4(),
-            quiz_id: quiz._id,
-            question_text: "",
-            question_type: "Multiple Choice",
-            options: [],
-            correct_answer: "",
-            points: 1,
-        },
-    ]);
+    const [questions, setQuestions] = useState<Question[]>(() => {
+        if (initialQuestions.length > 0) return initialQuestions;
+        return [
+            {
+                _id: uuidv4(),
+                quiz_id: typeof quiz === "string" ? quiz : quiz._id,
+                question_text: "",
+                question_type: "Multiple Choice",
+                options: [],
+                correct_answer: "",
+                points: 1,
+            },
+        ];
+    });
 
     const handleAddQuestion = () => {
         setQuestions([...questions, {
@@ -122,6 +126,12 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz }: AddQuestion
         const totalPoints = calculateTotalPoints();
         setQuiz((prevQuiz: any) => ({ ...prevQuiz, points: totalPoints }));
     }, [questions]);
+
+    useEffect(() => {
+        if (initialQuestions.length > 0) {
+            setQuestions(initialQuestions);
+        }
+    }, [initialQuestions]);
 
     const calculateTotalPoints = () => {
         return questions.reduce((total, question) => total + question.points, 0);

@@ -12,18 +12,33 @@ export default function QuizEditor() {
   const [activeTab, setActiveTab] = useState("details");
 
   const [newQuiz, setNewQuiz] = useState<any | null>(null);
+  const [newQuizQuestions, setNewQuizQuestions] = useState([]);
 
   useEffect(() => {
-    const fetchQuiz = async () => {
+    async function fetchQuizAndQuestions() {
       try {
-        const quiz = await quizClient.getQuizById(qid as string);
-        setNewQuiz(quiz);
+        // 1. Fetch quiz data
+        if (!qid) {
+          throw new Error("Quiz ID is undefined");
+        }
+        const quizData = await quizClient.getQuizById(qid);
+        setNewQuiz(quizData);
+
+        // 2. Fetch questions using dedicated endpoint
+        if (quizData._id) {
+          const questions = await quizClient.getQuestionsForQuiz(quizData._id);
+          setNewQuizQuestions(questions);
+        } else {
+          setNewQuizQuestions([]);
+        }
       } catch (error) {
-        console.error("Error loading quiz:", error);
+        console.error("Error loading quiz or questions", error);
       }
-    };
-    fetchQuiz();
+    }
+    fetchQuizAndQuestions();
   }, [qid]);
+
+
 
   const handleUpdateQuiz = async () => {
     try {
@@ -242,7 +257,8 @@ export default function QuizEditor() {
             <AddQuestionForm
               onSubmit={handleAddQuestion}
               quiz={newQuiz._id}
-              setQuiz={setNewQuiz} />
+              setQuiz={setNewQuiz}
+              initialQuestions={newQuizQuestions} />
             <ul>
               {newQuiz.questions.map((questionId: any) => (
                 <li key={questionId}>
