@@ -15,6 +15,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function Quizzes() {
     const { cid } = useParams();
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
     const dispatch = useDispatch();
     const fetchQuizzes = async () => {
         const quizzes = await quizClient.getQuizzesForCourse(cid as string);
@@ -78,7 +79,7 @@ export default function Quizzes() {
 
                     <ListGroup className="rounded-0">
                         {quizzes
-                            .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz))
+                            .filter((quiz: any) => quiz.courseId === cid && (isQuizAvailable(quiz) || currentUser.role === "FACULTY"))
                             .map((quiz: any) => (
                                 <ListGroup.Item
                                     key={quiz._id}
@@ -101,9 +102,9 @@ export default function Quizzes() {
                                                 </Link>
                                             </StudentContent>
                                             <small>
-                                                <span className="text-secondary">Not available until {quiz.date} at 12:00am</span>
+                                                <span className="text-secondary">Not available until {new Date(quiz.availableDate).toLocaleString()}</span>
                                                 <br />
-                                                <span className="text-secondary">Due {quiz.dueDate} at 11:59pm | {quiz.points} pts</span>
+                                                <span className="text-secondary">Due {new Date(quiz.dueDate).toLocaleString()} | {quiz.points} pts</span>
                                             </small>
                                         </div>
                                         {cid && <QuizButtonGroup quizId={quiz._id} courseId={cid} />}
