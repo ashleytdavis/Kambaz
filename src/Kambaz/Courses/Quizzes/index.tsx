@@ -27,6 +27,20 @@ export default function Quizzes() {
         const untilDate = new Date(quiz.untilDate);
         return now >= availableDate && now <= untilDate;
     };
+    const quizStatus = (quiz: any) => {
+        const now = new Date();
+        const availableDate = new Date(quiz.availableDate);
+        const untilDate = new Date(quiz.untilDate);
+        if(now >= availableDate) {
+            if(now <= untilDate) {
+                return "Available"
+            } else {
+                return "Closed"
+            }
+        } else {
+            return `Not available until ${availableDate.toLocaleString()}`
+        }
+    }
     useEffect(() => {
         fetchQuizzes();
     }, []);
@@ -102,8 +116,9 @@ export default function Quizzes() {
                                                 </Link>
                                             </StudentContent>
                                             <small>
-                                                <span className="text-secondary">Not available until {new Date(quiz.availableDate).toLocaleString()}</span>
-                                                <br />
+                                                <FacultyContent>
+                                                    <span className="text-secondary" style={{ fontWeight: 'bold' }}>{quizStatus(quiz)}</span><br/>
+                                                </FacultyContent>
                                                 <span className="text-secondary">Due {new Date(quiz.dueDate).toLocaleString()} | {quiz.points} pts</span>
                                             </small>
                                         </div>
