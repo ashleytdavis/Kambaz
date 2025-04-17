@@ -18,7 +18,6 @@ export default function QuizPreview() {
 
   useEffect(() => {
     const fetchData = async () => {
-        console.log(quizId);
       const q = await quizClient.getQuizById(quizId!);
       const qs = await quizClient.getQuestionsForQuiz(quizId!);
       setQuiz(q);
@@ -31,12 +30,21 @@ export default function QuizPreview() {
     setAnswers((prev: any) => ({ ...prev, [qid]: value }));
   };
 
+  const isAnswerCorrect = (userAnswer: string, correctAnswer: string[] | string) => {
+    const userAns = userAnswer?.toString().toLowerCase().trim();
+    const correctAnswers = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+    return correctAnswers.some(
+      (ans) => ans.toString().toLowerCase().trim() === userAns
+    );
+  };
+
   const handleSubmitPreview = () => {
     let tempScore = 0;
 
     questions.forEach((q) => {
-      if (answers[q._id]?.trim?.().toLowerCase?.() === q.correct_answer?.trim?.().toLowerCase?.()) {
-        tempScore += q.points;
+      const selected = answers[q._id];
+      if (isAnswerCorrect(selected, q.correct_answer)) {
+        tempScore += q.points || 0;
       }
     });
 
@@ -68,9 +76,10 @@ export default function QuizPreview() {
       >
         {questions.map((question: any, index: number) => {
           const selected = answers[question._id];
-          const isCorrect =
-            selected?.trim?.().toLowerCase?.() ===
-            question.correct_answer?.trim?.().toLowerCase?.();
+          const isCorrect = isAnswerCorrect(selected, question.correct_answer);
+          const correctAnswers = Array.isArray(question.correct_answer)
+            ? question.correct_answer.join(", ")
+            : question.correct_answer;
 
           return (
             <div key={question._id} className="mb-4 p-3 border rounded">
@@ -128,7 +137,8 @@ export default function QuizPreview() {
                   ) : (
                     <span className="text-danger">
                       <FaTimesCircle className="me-2" />
-                      Incorrect – Correct answer: <strong>{question.correct_answer}</strong>
+                      Incorrect – Correct answer{Array.isArray(question.correct_answer) ? "s" : ""}:{" "}
+                      <strong>{correctAnswers}</strong>
                     </span>
                   )}
                 </div>
