@@ -48,7 +48,7 @@ const QuizButtonGroup = ({ quizId, courseId }: { quizId: string, courseId: strin
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
                         <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
-                        <Dropdown.Item onClick={handlePublish}>{quiz.published ? "Unpublish" : "Publish"}</Dropdown.Item>
+                        <Dropdown.Item onClick={handlePublish}>{quiz && quiz.published ? "Unpublish" : "Publish"}</Dropdown.Item>
                         <Dropdown.Item>Copy</Dropdown.Item>
                         <Dropdown.Item>Sort</Dropdown.Item>
                     </Dropdown.Menu>

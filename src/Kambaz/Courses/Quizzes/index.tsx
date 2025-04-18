@@ -87,13 +87,13 @@ export default function Quizzes() {
                             <IoEllipsisVertical className="fs-4" />
                         </div>
                     </div>
-
-                    {quizzes
-                        .filter((quiz: any) => quiz.courseId === cid && quizzes.length === 0 && (
+                    <FacultyContent>
+                        {quizzes.length === 0 && (
                             <div className="text-center text-muted my-4">
                                 No quizzes yet. Click <strong>+ Quiz</strong> to get started.
                             </div>
-                        ))}
+                        )}
+                    </FacultyContent>
 
 
                     <ListGroup className="rounded-0">

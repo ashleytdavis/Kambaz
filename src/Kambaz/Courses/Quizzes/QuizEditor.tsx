@@ -47,6 +47,16 @@ export default function QuizEditor() {
     }
   };
 
+  const handleUpdateAndPublishQuiz = async () => {
+    try {
+      const publishedNewQuiz = { ...newQuiz, published: true };
+      await quizClient.updateQuiz(publishedNewQuiz);
+      dispatch(updateQuizRedux(publishedNewQuiz));
+    } catch (err) {
+      console.error("Failed to update quiz:", err);
+    }
+  };
+
   const handleAddQuestion = async (newQuestion: any) => {
     try {
       const savedQuestion = await quizClient.saveQuestion(newQuestion, newQuiz._id);
@@ -276,6 +286,9 @@ export default function QuizEditor() {
         </Link>
         <Link to={`/Kambaz/Courses/${cid}/Quizzes/${qid}/Details`}>
           <Button variant="danger" onClick={handleUpdateQuiz}>Save</Button>
+        </Link>
+        <Link to={`/Kambaz/Courses/${cid}/Quizzes/${qid}/Details`}>
+          <Button variant="danger" onClick={handleUpdateAndPublishQuiz}>Save and Publish</Button>
         </Link>
       </div>
     </Container>
