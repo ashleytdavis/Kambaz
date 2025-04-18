@@ -24,3 +24,9 @@ export const createAssignmentForCourse = async (assignment: any) => {
   );
   return response.data;
 };
+export const getAssignmentsForCourse = async (courseId: string) => {
+  const response = await axiosWithCredentials.get(`${ASSIGNMENTS_API}`, {
+    params: { courseId },
+  });
+  return response.data;
+};
