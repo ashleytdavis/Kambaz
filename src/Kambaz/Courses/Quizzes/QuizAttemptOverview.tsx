@@ -110,7 +110,9 @@ export default function QuizAttemptOverview() {
             );
 
             const studentAnswer = studentAnswerObj?.answer;
-            const isCorrect = studentAnswer === question.correct_answer;
+            const isCorrect = question.correct_answer.some(
+                (ans: any) => ans === studentAnswer.toString()
+            );
 
             return (
                 <div key={question._id} className="mb-3 p-3 border rounded">

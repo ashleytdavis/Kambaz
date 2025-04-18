@@ -15,6 +15,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function Quizzes() {
     const { cid } = useParams();
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
     const dispatch = useDispatch();
     const fetchQuizzes = async () => {
         const quizzes = await quizClient.getQuizzesForCourse(cid as string);
@@ -26,6 +27,20 @@ export default function Quizzes() {
         const untilDate = new Date(quiz.untilDate);
         return now >= availableDate && now <= untilDate;
     };
+    const quizStatus = (quiz: any) => {
+        const now = new Date();
+        const availableDate = new Date(quiz.availableDate);
+        const untilDate = new Date(quiz.untilDate);
+        if(now >= availableDate) {
+            if(now <= untilDate) {
+                return "Available"
+            } else {
+                return "Closed"
+            }
+        } else {
+            return `Not available until ${availableDate.toLocaleString()}`
+        }
+    }
     useEffect(() => {
         fetchQuizzes();
     }, []);
@@ -78,7 +93,7 @@ export default function Quizzes() {
 
                     <ListGroup className="rounded-0">
                         {quizzes
-                            .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz))
+                            .filter((quiz: any) => quiz.courseId === cid && (isQuizAvailable(quiz) || currentUser.role === "FACULTY"))
                             .map((quiz: any) => (
                                 <ListGroup.Item
                                     key={quiz._id}
@@ -101,9 +116,10 @@ export default function Quizzes() {
                                                 </Link>
                                             </StudentContent>
                                             <small>
-                                                <span className="text-secondary">Not available until {quiz.date} at 12:00am</span>
-                                                <br />
-                                                <span className="text-secondary">Due {quiz.dueDate} at 11:59pm | {quiz.points} pts</span>
+                                                <FacultyContent>
+                                                    <span className="text-secondary" style={{ fontWeight: 'bold' }}>{quizStatus(quiz)}</span><br/>
+                                                </FacultyContent>
+                                                <span className="text-secondary">Due {new Date(quiz.dueDate).toLocaleString()} | {quiz.points} pts</span>
                                             </small>
                                         </div>
                                         {cid && <QuizButtonGroup quizId={quiz._id} courseId={cid} />}
