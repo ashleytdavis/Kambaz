@@ -19,20 +19,24 @@ export default function Quizzes() {
     const dispatch = useDispatch();
     const fetchQuizzes = async () => {
         const quizzes = await quizClient.getQuizzesForCourse(cid as string);
+        quizzes.filter((quiz: any) => isQuizAvailable(quiz) || currentUser.role === "FACULTY")
         dispatch(setQuizzes(quizzes));
     };
+
+    const { quizzes } = useSelector((state: any) => state.quizzesReducer);
     const isQuizAvailable = (quiz: any) => {
         const now = new Date();
         const availableDate = new Date(quiz.availableDate);
         const untilDate = new Date(quiz.untilDate);
-        return now >= availableDate && now <= untilDate;
+        return quiz.published && now >= availableDate && now <= untilDate;
     };
+
     const quizStatus = (quiz: any) => {
         const now = new Date();
         const availableDate = new Date(quiz.availableDate);
         const untilDate = new Date(quiz.untilDate);
-        if(now >= availableDate) {
-            if(now <= untilDate) {
+        if (now >= availableDate) {
+            if (now <= untilDate) {
                 return "Available"
             } else {
                 return "Closed"
@@ -44,7 +48,7 @@ export default function Quizzes() {
     useEffect(() => {
         fetchQuizzes();
     }, []);
-    const { quizzes } = useSelector((state: any) => state.quizzesReducer);
+
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -83,12 +87,13 @@ export default function Quizzes() {
                             <IoEllipsisVertical className="fs-4" />
                         </div>
                     </div>
-                    {quizzes
-                        .filter((quiz: any) => quiz.courseId === cid && isQuizAvailable(quiz)).length === 0 && (
+                    <FacultyContent>
+                        {quizzes.length === 0 && (
                             <div className="text-center text-muted my-4">
                                 No quizzes yet. Click <strong>+ Quiz</strong> to get started.
                             </div>
                         )}
+                    </FacultyContent>
 
 
                     <ListGroup className="rounded-0">
@@ -111,13 +116,13 @@ export default function Quizzes() {
                                             <StudentContent>
                                                 <Link
                                                     to={`/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Overview`}
-                                                    className="wd-quiz-link fw-bold text-decoration-none text-dark">
+                                                    className="wd-quiz-link fw-bold text-decoration-none text-dark mb-0">
                                                     {quiz.title || "Untitled Quiz"}
                                                 </Link>
                                             </StudentContent>
                                             <small>
                                                 <FacultyContent>
-                                                    <span className="text-secondary" style={{ fontWeight: 'bold' }}>{quizStatus(quiz)}</span><br/>
+                                                    <span className="text-secondary fw-bold mb-1">{quizStatus(quiz)}</span><br />
                                                 </FacultyContent>
                                                 <span className="text-secondary">Due {new Date(quiz.dueDate).toLocaleString()} | {quiz.points} pts</span>
                                             </small>

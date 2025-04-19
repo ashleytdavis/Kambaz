@@ -148,6 +148,31 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuesti
         }
     };
 
+    const handleCreateAndPublish = async () => {
+        try {
+            const savedQuiz = await quizClient.createQuiz(quiz);
+
+            const savedQuestions = await Promise.all(
+                questions.map(async (question) => {
+                    const savedQuestion = await quizClient.saveQuestion(question, savedQuiz._id);
+                    return savedQuestion;
+                })
+            );
+
+            const updatedQuiz = {
+                ...savedQuiz,
+                questions: savedQuestions.map((q) => q._id),
+                published: true
+            };
+
+            await quizClient.updateQuiz(updatedQuiz);
+
+            console.log("Quiz and questions saved successfully:", updatedQuiz);
+        } catch (error) {
+            console.error("Error saving quiz and questions:", error);
+        }
+    }
+
     useEffect(() => {
         const totalPoints = calculateTotalPoints();
         setQuiz((prevQuiz: any) => ({ ...prevQuiz, points: totalPoints }));
@@ -364,7 +389,10 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuesti
                 </Button>
             </div>
             <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
-                <Button variant="danger" type="submit" onClick={handleCreateQuiz}>Save</Button>
+                <Button variant="danger" type="submit"  className="me-2" onClick={handleCreateQuiz}>Save</Button>
+            </Link>
+            <Link to={`/Kambaz/Courses/${cid}/Quizzes`}>
+                <Button variant="danger" type="submit" onClick={handleCreateAndPublish}>Save and Publish</Button>
             </Link>
         </Form>
     );

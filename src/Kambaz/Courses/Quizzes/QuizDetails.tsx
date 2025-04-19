@@ -3,10 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Card, Row, Col, Spinner, Table, Button } from "react-bootstrap";
 import * as quizClient from "../Quizzes/client";
 
-function formatBoolean(value: boolean | undefined, defaultValue: boolean) {
-    if (value === undefined || value === null) return defaultValue ? "Yes" : "No";
-    return value ? "Yes" : "No";
-}
 
 function formatTimeLimit(timeLimit: { hours?: number; minutes?: number } | undefined) {
     const hours = timeLimit?.hours ?? 0;
