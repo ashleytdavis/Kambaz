@@ -25,10 +25,7 @@ export default function Quizzes() {
 
     const { quizzes } = useSelector((state: any) => state.quizzesReducer);
     const isQuizAvailable = (quiz: any) => {
-        const now = new Date();
-        const availableDate = new Date(quiz.availableDate);
-        const untilDate = new Date(quiz.untilDate);
-        return quiz.published && now >= availableDate && now <= untilDate;
+        return quiz.published;
     };
 
     const quizStatus = (quiz: any) => {
@@ -119,11 +116,9 @@ export default function Quizzes() {
                                                     className="wd-quiz-link fw-bold text-decoration-none text-dark mb-0">
                                                     {quiz.title || "Untitled Quiz"}
                                                 </Link>
-                                            </StudentContent>
+                                            </StudentContent><br/>
                                             <small>
-                                                <FacultyContent>
                                                     <span className="text-secondary fw-bold mb-1">{quizStatus(quiz)}</span><br />
-                                                </FacultyContent>
                                                 <span className="text-secondary">Due {new Date(quiz.dueDate).toLocaleString()} | {quiz.points} pts</span>
                                             </small>
                                         </div>
