@@ -111,11 +111,16 @@ export default function Quizzes() {
                                                 </p>
                                             </FacultyContent>
                                             <StudentContent>
+                                            {quizStatus(quiz) === "Available" ? (
                                                 <Link
                                                     to={`/Kambaz/Courses/${cid}/Quizzes/${quiz._id}/Overview`}
                                                     className="wd-quiz-link fw-bold text-decoration-none text-dark mb-0">
                                                     {quiz.title || "Untitled Quiz"}
-                                                </Link>
+                                                </Link>) : (
+                                                <span className="fw-bold text-muted mb-0">
+                                                    {quiz.title || "Untitled Quiz"}
+                                                </span>
+                                            )}
                                             </StudentContent><br/>
                                             <small>
                                                     <span className="text-secondary fw-bold mb-1">{quizStatus(quiz)}</span><br />
