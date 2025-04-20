@@ -82,32 +82,6 @@ export default function AddQuestionForm({ onSubmit, quiz, setQuiz, initialQuesti
         setQuestions(updatedQuestions);
     };
 
-    const handleAnswerChange = (questionIndex: number, answerIndex: number, value: string) => {
-        const updatedQuestions = [...questions];
-        const updatedAnswers = [...(updatedQuestions[questionIndex].correct_answer as string[])];
-        updatedAnswers[answerIndex] = value;
-        updatedQuestions[questionIndex].correct_answer = updatedAnswers;
-        setQuestions(updatedQuestions);
-    };
-
-    const handleAddAnswer = (questionIndex: number) => {
-        const updatedQuestions = [...questions];
-        const updatedAnswers = Array.isArray(updatedQuestions[questionIndex].correct_answer)
-            ? [...updatedQuestions[questionIndex].correct_answer, ""]
-            : [""];
-        updatedQuestions[questionIndex].correct_answer = updatedAnswers;
-        setQuestions(updatedQuestions);
-    };
-
-    const handleRemoveAnswer = (questionIndex: number, answerIndex: number) => {
-        const updatedQuestions = [...questions];
-        const updatedAnswers = (updatedQuestions[questionIndex].correct_answer as string[]).filter(
-            (_, i) => i !== answerIndex
-        );
-        updatedQuestions[questionIndex].correct_answer = updatedAnswers;
-        setQuestions(updatedQuestions);
-    };
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit(questions);

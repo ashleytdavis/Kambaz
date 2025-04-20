@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import * as quizClient from "./client";
-import axios from "axios";
 import { Button, Form, Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 

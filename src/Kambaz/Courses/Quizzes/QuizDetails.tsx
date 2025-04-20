@@ -77,7 +77,6 @@ export default function QuizDetails() {
     const multipleAttempts = quiz.multipleAttempts ?? false;
     const maxAttempts = quiz.maxAttempts ?? 1;
     const showCorrectAnswers = quiz.showCorrectAnswers ?? false;
-    const accessCode = quiz.accessCode ?? "";
     const oneQuestionAtATime = quiz.oneQuestionAtATime ?? true;
     const webcamRequired = quiz.webcamRequired ?? false;
     const lockQuestions = quiz.lockQuestions ?? false;

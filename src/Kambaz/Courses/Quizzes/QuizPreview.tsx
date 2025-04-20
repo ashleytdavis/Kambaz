@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import * as quizClient from "./client";
 import { Button, Form, Alert } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 export default function QuizPreview() {
@@ -13,8 +12,6 @@ export default function QuizPreview() {
   const [answers, setAnswers] = useState<any>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
-
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   useEffect(() => {
     const fetchData = async () => {

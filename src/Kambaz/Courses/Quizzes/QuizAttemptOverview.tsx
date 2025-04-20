@@ -14,7 +14,7 @@ export default function QuizAttemptOverview() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [userId, setUserId] = useState(currentUser._id); 
+  const [userId] = useState(currentUser._id); 
 
   useEffect(() => {
     const fetchData = async () => {

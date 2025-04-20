@@ -69,6 +69,10 @@ export default function Signin() {
                             </Link>
                         </div>
                     </Form>
+                    <div className="text-center mt-3">
+                        <small className="text-muted">By Ashley Davis: <a href="https://github.com/ashleytdavis">https://github.com/ashleytdavis</a>
+                            <br />and Abby Elbaum: <a href="https://github.com/abbyelbaum">https://github.com/abbyelbaum</a></small>
+                    </div>
                 </Col>
             </Row>
         </Container>
