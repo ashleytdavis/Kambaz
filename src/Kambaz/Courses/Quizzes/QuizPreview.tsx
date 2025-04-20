@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import * as quizClient from "./client";
 import { Button, Form, Alert } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 export default function QuizPreview() {

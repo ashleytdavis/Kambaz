@@ -13,7 +13,6 @@ export default function Dashboard(
         updateEnrollment: (courseId: string, enrolled: boolean) => void;
     }) {
     const [course, setCourse] = useState<any>({});
-    const [courseAssignments] = useState<any>([])
 
     const handleAddCourse = () => {
         addNewCourse(course);
