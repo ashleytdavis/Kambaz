@@ -14,8 +14,6 @@ export default function QuizPreview() {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-
   useEffect(() => {
     const fetchData = async () => {
       const q = await quizClient.getQuizById(quizId!);

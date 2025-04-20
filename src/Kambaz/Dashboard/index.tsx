@@ -13,7 +13,7 @@ export default function Dashboard(
         updateEnrollment: (courseId: string, enrolled: boolean) => void;
     }) {
     const [course, setCourse] = useState<any>({});
-    const [courseAssignments, setCourseAssignments] = useState<any>([])
+    const [courseAssignments] = useState<any>([])
 
     const handleAddCourse = () => {
         addNewCourse(course);
@@ -70,11 +70,7 @@ export default function Dashboard(
 
                                             </div>
                                             <Card.Text className="fw-bold">Due</Card.Text>
-                                            {courseAssignments.length > 0 ?
-                                                courseAssignments.map((assignment: any) => (
-                                                    null
-                                                    // here is where we would map the assignments of each course, sorted by dueDate
-                                                )) : <p>None</p>}
+                                            <p>None</p>
                                             <div className="d-flex justify-content-between">
                                                 <FacultyContent>
                                                     <Button id="wd-edit-course-click"
