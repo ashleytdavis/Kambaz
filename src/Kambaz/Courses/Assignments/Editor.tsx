@@ -1,6 +1,5 @@
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { Link, useParams } from "react-router";
-import * as db from "../../Database";
 import { updateAssignment } from "./reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
