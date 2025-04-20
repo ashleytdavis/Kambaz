@@ -5,7 +5,7 @@ const ASSIGNMENTS_API = `${REMOTE_SERVER}/api/assignments`;
 const ENROLLMENT_API = `${REMOTE_SERVER}/api/enrollment`;
 const axiosWithCredentials = axios.create({ withCredentials: true });
 export const fetchAllCourses = async () => {
-  const { data } = await axiosWithCredentials.get(COURSES_API);
+  const { data } = await axios.get(COURSES_API);
   return data;
 };
 export const deleteCourse = async (id: string) => {
