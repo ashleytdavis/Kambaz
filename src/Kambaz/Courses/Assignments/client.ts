@@ -30,3 +30,9 @@ export const getAssignmentsForCourse = async (courseId: string) => {
   });
   return response.data;
 };
+export const getAssignmentById = async (assignmentId: string) => {
+  const response = await axiosWithCredentials.get(
+    `${ASSIGNMENTS_API}/${assignmentId}`
+  );
+  return response.data;
+};
