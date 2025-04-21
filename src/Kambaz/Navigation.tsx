@@ -1,9 +1,10 @@
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
-import { LiaBookSolid, } from "react-icons/lia";
+import { LiaBookSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
+import { LuClock3 } from "react-icons/lu";
+import { IoMdHelpCircleOutline } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
-import { ListGroup } from "react-bootstrap";
 
 export default function KambazNavigation() {
     const { pathname } = useLocation();
@@ -12,27 +13,46 @@ export default function KambazNavigation() {
         { label: "Courses", path: "/Kambaz/Courses", icon: LiaBookSolid },
         { label: "Calendar", path: "/Kambaz/Calendar", icon: IoCalendarOutline },
         { label: "Inbox", path: "/Kambaz/Inbox", icon: FaInbox },
+        { label: "History", path: "/Kambaz/History", icon: LuClock3 },
+        { label: "Help", path: "/Kambaz/Help", icon: IoMdHelpCircleOutline },
     ];
+
     return (
-        <ListGroup id="wd-kambaz-navigation" style={{ width: 120 }}
-            className="rounded-0 position-fixed bottom-0 top-0 d-flex flex-column justify-content-between align-items-center bg-black z-2 pt-4 pb-4 pl-3">
-            <ListGroup.Item id="wd-neu-link" target="_blank" href="https://www.northeastern.edu/"
-                action className="bg-black border-0 text-center">
-                <img src="images/neu-monogram.svg" width="75px" /></ListGroup.Item>
-            <ListGroup.Item as={Link} to="/Kambaz/Account" className={`text-center border-0 bg-black w-100
-            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
-                <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
-                <br />
-                Account
-            </ListGroup.Item>
-            {links.map((link) => (
-                <ListGroup.Item key={link.path} as={Link} to={link.path} className={`bg-black text-center border-0 w-100
-              ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
-                    {link.icon({ className: "fs-1 text-danger" })}
-                    <br />
-                    {link.label}
-                </ListGroup.Item>
-            ))}
-        </ListGroup>
+        <div
+            style={{
+                width: '86px',
+                backgroundColor: '#000',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center', // Center items vertically
+                alignItems: 'center', // Center items horizontally
+            }}
+            className="position-fixed top-0 bottom-0 z-2"
+        ><a href="https://www.northeastern.edu/" target="_blank" rel="noreferrer">
+                <img src="/images/neu-monogram.svg" alt="NEU" width="60" />
+            </a>
+
+            <div className="d-flex flex-column gap-3 w-100 mt-5">
+                <Link
+                    to="/Kambaz/Account"
+                    className={`text-decoration-none w-100 py-2 d-flex flex-column align-items-center ${pathname.includes("Account") ? "bg-light border-start border-4 border-danger text-danger" : "text-white"}`}>
+                    <FaRegCircleUser className={`fs-4 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
+                    <small className="mt-1">Account</small>
+                </Link>
+                {links.map((link) => {
+                    const isActive = pathname.includes(link.label);
+                    return (
+                        <Link
+                            key={link.path}
+                            to={link.path}
+                            className={`text-decoration-none w-100 py-2 d-flex flex-column align-items-center ${isActive ? "bg-light border-start border-4 border-danger text-danger" : "text-white"}`}>
+                            {link.icon({ className: `fs-4 ${isActive ? "text-danger" : "text-white"}` })}
+                            <small className="mt-1">{link.label}</small>
+                        </Link>
+                    );
+                })}
+            </div>
+
+        </div>
     );
 }

@@ -1,10 +1,3 @@
-/*
-Following Modules/reducer.ts as an example, create an Assignments/reducer.ts 
-in src/Kambaz/Courses/Assignments/ initialized with db.assignments. Implement 
-reducer functions such as addAssignment, deleteAssignment, updateAssignment, 
-and any other functions as needed. Add the new reducer to the store in 
-Kambaz/store/index.ts to add the assignments to the Kambaz application state.
-*/
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,15 +1,13 @@
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { Link, useParams } from "react-router";
-import * as db from "../../Database";
 import { updateAssignment } from "./reducer";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as assignmentClient from "./client"
 
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
-    const assignments = db.assignments;
     const dispatch = useDispatch();
 
     const formatDate = (dateString: string | undefined) => {
@@ -29,22 +27,29 @@ export default function AssignmentEditor() {
         await assignmentClient.updateAssignment(newAssignment);
         dispatch(updateAssignment(newAssignment));
     };
-
-    const assignment = assignments.find((assignment: any) => assignment._id === aid && assignment.course === cid);
-
-    const [newAssignment, setNewAssignment] = useState(
-        {
-            _id: aid,
-            title: assignment?.title,
-            course: cid,
-            date: assignment?.date,
-            dueDate: assignment?.dueDate,
-            points: assignment?.points,
-            dateAlt: assignment?.dateAlt,
-            dueDateAlt: assignment?.dueDateAlt,
-            description: assignment?.description,
+    const [newAssignment, setNewAssignment] = useState<any>(null);
+    useEffect(() => {
+        const fetchAssignment = async () => {
+            try {
+                const assignment = await assignmentClient.getAssignmentById(aid || "");
+                setNewAssignment({
+                    _id: aid,
+                    title: assignment?.title || "",
+                    course: cid,
+                    date: assignment?.date || "",
+                    dueDate: assignment?.dueDate || "",
+                    points: assignment?.points || 0,
+                    dateAlt: assignment?.dateAlt || "",
+                    dueDateAlt: assignment?.dueDateAlt || "",
+                    description: assignment?.description || "",
+                });
+            } catch (error) {
+                console.error("Failed to fetch assignment:", error);
+            };
         }
-    );
+
+        fetchAssignment();
+    }, [aid, cid]);
 
     return (
         <Container className="mt-4">
