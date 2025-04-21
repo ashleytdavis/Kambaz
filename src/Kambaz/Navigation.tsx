@@ -13,17 +13,26 @@ export default function KambazNavigation() {
         { label: "Courses", path: "/Kambaz/Courses", icon: LiaBookSolid },
         { label: "Calendar", path: "/Kambaz/Calendar", icon: IoCalendarOutline },
         { label: "Inbox", path: "/Kambaz/Inbox", icon: FaInbox },
-        { label: "History", path: "/Kambaz/History", icon: LuClock3 }, 
-    { label: "Help", path: "/Kambaz/Help", icon: IoMdHelpCircleOutline }, 
+        { label: "History", path: "/Kambaz/History", icon: LuClock3 },
+        { label: "Help", path: "/Kambaz/Help", icon: IoMdHelpCircleOutline },
     ];
 
     return (
-        <div style={{ width: '86px', backgroundColor: '#000' }} className="d-flex flex-column justify-content-between align-items-center position-fixed top-0 bottom-0 z-2 py-3">
-            <a href="https://www.northeastern.edu/" target="_blank" rel="noreferrer">
+        <div
+            style={{
+                width: '86px',
+                backgroundColor: '#000',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center', // Center items vertically
+                alignItems: 'center', // Center items horizontally
+            }}
+            className="position-fixed top-0 bottom-0 z-2"
+        ><a href="https://www.northeastern.edu/" target="_blank" rel="noreferrer">
                 <img src="/images/neu-monogram.svg" alt="NEU" width="60" />
             </a>
 
-            <div className="d-flex flex-column align-items-center gap-3 mt-4 w-100">
+            <div className="d-flex flex-column gap-3 w-100 mt-5">
                 <Link
                     to="/Kambaz/Account"
                     className={`text-decoration-none w-100 py-2 d-flex flex-column align-items-center ${pathname.includes("Account") ? "bg-light border-start border-4 border-danger text-danger" : "text-white"}`}>
