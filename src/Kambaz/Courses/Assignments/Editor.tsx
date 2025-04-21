@@ -8,7 +8,6 @@ import * as assignmentClient from "./client"
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
-    const assignments = db.assignments;
     const dispatch = useDispatch();
 
     const formatDate = (dateString: string | undefined) => {
@@ -28,8 +27,6 @@ export default function AssignmentEditor() {
         await assignmentClient.updateAssignment(newAssignment);
         dispatch(updateAssignment(newAssignment));
     };
-
-    const assignment = assignments.find((assignment: any) => assignment._id === aid && assignment.course === cid);
 
     const [newAssignment, setNewAssignment] = useState(
         {
